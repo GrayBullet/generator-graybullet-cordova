@@ -5,6 +5,7 @@ var path = require('path');
 var assert = require('yeoman-generator').assert;
 var helpers = require('yeoman-generator').test;
 var os = require('os');
+var util = require('./lib/util.js');
 
 describe('graybullet-cordova:app', function () {
   var originalTimeout;
@@ -33,10 +34,7 @@ describe('graybullet-cordova:app', function () {
         var source = path.join(os.tmpdir(), './temp-webapp/temp-test');
         var destination = path.join(os.tmpdir(), './temp-test');
 
-        var fs = require('fs');
-        ['Gruntfile.js', 'bower.json', 'package.json', '.editorconfig', '.jshintrc'].forEach(function (name) {
-          fs.createReadStream(path.join(source, name)).pipe(fs.createWriteStream(path.join(destination, name)));
-        });
+        util.copyRecursiveSync(source, destination);
       }
     };
 
