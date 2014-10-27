@@ -1,51 +1,55 @@
 'use strict';
+
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
+var cordova = new (require('./cordovaAdapter.js'))('cordova');
 
 var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
   initializing: function () {
     this.pkg = require('../package.json');
+
+    this.projectOptions = {};
   },
 
-  prompting: function () {
-    var done = this.async();
+  prompting: {
+    promptingProject: function () {
+      var done = this.async();
 
-    // Have Yeoman greet the user.
-    this.log(yosay(
-      'Welcome to the premium GraybulletCordova generator!'
-    ));
+      this.log(yosay('Welcome to the Apache Cordova generator!'));
 
-    var prompts = [{
-      type: 'confirm',
-      name: 'someOption',
-      message: 'Would you like to enable this option?',
-      default: true
-    }];
+      var prompts = [
+        {
+          name: 'name',
+          message: 'What is the name of Apache Cordova App?',
+          'default': 'HelloCordova'
+        }, {
+          name: 'id',
+          message: 'What is the ID of Apache Cordova App?',
+          'default': 'io.cordova.hellocordova'
+        }
+      ];
 
-    this.prompt(prompts, function (props) {
-      this.someOption = props.someOption;
+      this.prompt(prompts, function (props) {
+        this.projectOptions.name = props.appName;
+        this.projectOptions.id = props.id;
 
-      done();
-    }.bind(this));
-  },
-
-  writing: {
-    app: function () {
-      this.dest.mkdir('app');
-      this.dest.mkdir('app/templates');
-
-      this.src.copy('_package.json', 'package.json');
-      this.src.copy('_bower.json', 'bower.json');
+        done();
+      }.bind(this));
     },
 
-    projectfiles: function () {
-      this.src.copy('editorconfig', '.editorconfig');
-      this.src.copy('jshintrc', '.jshintrc');
+    createCordovaProject: function () {
+      var done = this.async();
+
+      cordova.create(this.projectOptions.id, this.projectOptions.name, done);
+    },
+
+    createWebappProject: function () {
+      this.composeWith('webapp', {'skip-install': true});
     }
   },
 
   end: function () {
-    this.installDependencies();
+//    this.installDependencies();
   }
 });
 

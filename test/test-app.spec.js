@@ -8,13 +8,42 @@ var os = require('os');
 
 describe('graybullet-cordova:app', function () {
   beforeEach(function (done) {
-    helpers.run(path.join(__dirname, '../app'))
-      .inDir(path.join(os.tmpdir(), './temp-test'))
-      .withOptions({'skip-install': true})
-      .withPrompt({
-        someOption: true
-      })
-      .on('end', done);
+    var webapp = {
+      run: function (callback) {
+        helpers.run('generator-webapp')
+          .inDir(path.join(os.tmpdir(), './temp-webapp/temp-test'))
+          .withOptions({'skip-install': true})
+          .withGenerators([[helpers.createDummyGenerator(), 'mocha:app']])
+          .withPrompt({features: ['includeBootstrap']})
+          .on('end', callback);
+      },
+
+      copy: function () {
+        var source = path.join(os.tmpdir(), './temp-webapp/temp-test');
+        var destination = path.join(os.tmpdir(), './temp-test');
+
+        var fs = require('fs');
+        ['Gruntfile.js', 'bower.json', 'package.json', '.editorconfig', '.jshintrc'].forEach(function (name) {
+          fs.createReadStream(path.join(source, name)).pipe(fs.createWriteStream(path.join(destination, name)));
+        });
+      }
+    };
+
+    var target = {
+      run: function (callback) {
+        helpers.run(path.join(__dirname, '../app'))
+          .inDir(path.join(os.tmpdir(), './temp-test'))
+          .withOptions({'skip-install': true})
+          .withPrompt({
+            id: 'com.example.hogeApp',
+            name: 'HogeApp'
+          })
+          .withGenerators([[function () { webapp.copy(); }, 'webapp:app']])
+          .on('end', callback);
+      }
+    };
+
+    webapp.run(target.run.bind(target, done));
   });
 
   it('creates files', function () {
@@ -22,7 +51,8 @@ describe('graybullet-cordova:app', function () {
       'bower.json',
       'package.json',
       '.editorconfig',
-      '.jshintrc'
+      '.jshintrc',
+      'cordova/config.xml'
     ]);
   });
 });
