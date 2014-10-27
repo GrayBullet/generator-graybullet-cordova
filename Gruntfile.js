@@ -3,14 +3,26 @@
 module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-jscs');
   grunt.loadNpmTasks('grunt-jasmine-node');
+
+  var config = {
+    javascripts: [
+      'app/**/*.js',
+      'test/**/*.js'
+    ]
+  };
 
   grunt.initConfig({
     jshint: {
       options: {
         jshintrc: '.jshintrc'
       },
-      all: ['app/**/*.js', 'test/**/*.js']
+      all: config.javascripts
+    },
+
+    jscs: {
+      all: config.javascripts
     },
 
     'jasmine_node': {

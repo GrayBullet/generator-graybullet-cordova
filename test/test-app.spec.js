@@ -10,7 +10,7 @@ describe('graybullet-cordova:app', function () {
   beforeEach(function (done) {
     helpers.run(path.join(__dirname, '../app'))
       .inDir(path.join(os.tmpdir(), './temp-test'))
-      .withOptions({ 'skip-install': true })
+      .withOptions({'skip-install': true})
       .withPrompt({
         someOption: true
       })
