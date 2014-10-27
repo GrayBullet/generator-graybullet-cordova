@@ -1,47 +1,34 @@
-# generator-graybullet-cordova [![Build Status](https://secure.travis-ci.org/GrayBullet/generator-graybullet-cordova.png?branch=master)](https://travis-ci.org/GrayBullet/generator-graybullet-cordova)
+# GrayBullet Cordova Web app generator
+[Yeoman](http://yeoman.io) generator that scaffolds out a front-end Apache Cordova web app.
 
-> [Yeoman](http://yeoman.io) generator
+
+## Features
+* Create Apache Cordova project with [web app](https://github.com/yeoman/generator-webapp)
+* Include [grunt tasks for Apache Cordova](https://github.com/GrayBullet/grunt-cordova-ng)
+
+For more information on what `generator-graybullet-cordova` can do for you, take look at then [generator-webapp](https://github.com/yeoman/generator-webapp) and [grunt-cordova-ng](https://github.com/GrayBullet/grunt-cordova-ng).
 
 
 ## Getting Started
+* Install: npm insatall -g generator-graybullet-cordova cordova@4.0.0
+* Run: yo graybullet-cordova
+* Run `grunt` for building and `grunt serve` for PC browser preview.
 
-### What is Yeoman?
 
-Trick question. It's not a thing. It's this guy:
+### Build Apache Cordova app
+* Debug build: `grunt build`
+* Debug build (Android only): `grunt build --cordova-platforms=android`
+* Release build: `grunt build --cordova-build=release`
+* Run emulator: `grunt emulate`
+* Run machine: `grunt run`
 
-![](http://i.imgur.com/JHaAlBJ.png)
+For more option, take look at then [grunt-cordova-ng](https://github.com/GrayBullet/grunt-cordova-ng).
 
-Basically, he wears a top hat, lives in your computer, and waits for you to tell him what kind of application you wish to create.
 
-Not every new computer comes with a Yeoman pre-installed. He lives in the [npm](https://npmjs.org) package repository. You only have to ask for him once, then he packs up and moves into your hard drive. *Make sure you clean up, he likes new and shiny things.*
-
-```bash
-npm install -g yo
-```
-
-### Yeoman Generators
-
-Yeoman travels light. He didn't pack any generators when he moved in. You can think of a generator like a plug-in. You get to choose what type of application you wish to create, such as a Backbone application or even a Chrome extension.
-
-To install generator-graybullet-cordova from npm, run:
-
-```bash
-npm install -g generator-graybullet-cordova
-```
-
-Finally, initiate the generator:
-
-```bash
-yo graybullet-cordova
-```
-
-### Getting To Know Yeoman
-
-Yeoman has a heart of gold. He's a person with feelings and opinions, but he's very easy to work with. If you think he's too opinionated, he can be easily convinced.
-
-If you'd like to get to know Yeoman better and meet some of his friends, [Grunt](http://gruntjs.com) and [Bower](http://bower.io), check out the complete [Getting Started Guide](https://github.com/yeoman/yeoman/wiki/Getting-Started).
+## Options
+Please look at the [generator-webapps's Option section](https://github.com/yeoman/generator-webapp#options).
 
 
 ## License
 
-MIT
+[MIT License](LICENSE)
