@@ -1,7 +1,11 @@
-language: node_js
-node_js:
-  - '0.10'
+language: android
+android:
+  components:
+    - build-tools-20.0.0
+    - android-19
 before_install:
   - npm install -g grunt-cli generator-webapp@0.5.1 cordova@4.0.0
   - currentfolder=${PWD##*/}
   - if [ "$currentfolder" != 'generator-graybullet-cordova' ]; then cd .. && eval "mv $currentfolder generator-graybullet-cordova" && cd generator-graybullet-cordova; fi
+script:
+  - npm test
