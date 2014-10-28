@@ -29,7 +29,9 @@ describe('graybullet-cordova:app', function () {
           .inDir(this.directory)
           .withOptions({'skip-install': true})
           .withGenerators([[helpers.createDummyGenerator(), 'mocha:app']])
-          .withPrompt({features: ['includeBootstrap']})
+          .withPrompt({
+            features: ['includeBootstrap']
+          })
           .on('end', callback);
       },
 
@@ -58,7 +60,8 @@ describe('graybullet-cordova:app', function () {
           .withOptions({'skip-install': true})
           .withPrompt({
             id: 'com.example.hogeApp',
-            name: 'HogeApp'
+            name: 'HogeApp',
+            platforms: ['android']
           })
           .withGenerators(dependencies)
           .on('end', callback);
@@ -75,7 +78,8 @@ describe('graybullet-cordova:app', function () {
       'package.json',
       '.editorconfig',
       '.jshintrc',
-      'cordova/config.xml'
+      'cordova/config.xml',
+      'cordova/platforms/android/AndroidManifest.xml'
     ]);
   });
 });
