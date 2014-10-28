@@ -6,6 +6,7 @@ var cordova = new (require('./cordovaAdapter.js'))('cordova');
 var _ = require('underscore');
 var OptionBuilder = require('./optionBuilder.js');
 var promptConfig = require('./promptConfig.js');
+var ProjectFiles = require('./projectFiles.js');
 
 var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
   constructor: function () {
@@ -128,11 +129,42 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
       cordova.addPlugin(this.projectOptions.plugins, done);
     },
 
+    /**
+     * Run generator-webapp.
+     */
     createWebappProject: function () {
       // Delegate options to generator-webapp.
       var options = this.optionBuilder.getDelegatedValues();
 
-      this.composeWith('webapp', {options: options});
+      var createReplaceFiles = function (generator) {
+        var files = new ProjectFiles(generator);
+
+        return function () {
+          files.loadPackageJson()
+            .appendToDevDependencies('cordova', '4.0.0')
+            .appendToDevDependencies('grunt-cordova-ng', '^0.1.3')
+            .commit();
+
+          files.loadGruntfileJs()
+            .changeDistDirectory('cordova/www')
+            .appendLoadNpmTasks('grunt-cordova-ng')
+            .appendCordovaRoot('./cordova')
+            .appendConnectRoot('./fake')
+            .renameTask('build', 'buildweb')
+            .appendTask('cordova-build', ['cordova:build'])
+            .appendTask('cordova-emulate', ['cordova:emulate'])
+            .appendTask('cordova-run', ['cordova:run'])
+            .appendTask('cordova-compile', ['cordova:compile'])
+            .appendTask('cordova-prepare', ['cordova:prepare'])
+            .appendTask('build', ['buildweb', 'cordova-build'])
+            .appendTask('emulate', ['buildweb', 'cordova-emulate'])
+            .appendTask('run', ['buildweb', 'cordova-run'])
+            .commit();
+        };
+      };
+
+      var subGenerator = this.composeWith('webapp', {options: options});
+      subGenerator.on('end', createReplaceFiles(subGenerator));
     }
   }
 });

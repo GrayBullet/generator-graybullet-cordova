@@ -16,8 +16,17 @@ module.exports = {
         fs.mkdirSync(destinationPath);
       } else {
         // Copy file.
-        fs.createReadStream(sourcePath).pipe(fs.createWriteStream(destinationPath));
+        var data = fs.readFileSync(sourcePath);
+        fs.writeFileSync(destinationPath, data);
       }
     });
+  },
+
+  readPackageJson: function () {
+    return JSON.parse(this.readText('package.json'));
+  },
+
+  readText: function (path) {
+    return fs.readFileSync(path, 'utf-8');
   }
 };

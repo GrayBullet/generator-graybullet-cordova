@@ -1,4 +1,4 @@
-/*global jasmine, describe, beforeEach, afterEach, it*/
+/* global jasmine, describe, beforeEach, afterEach, it, expect */
 'use strict';
 
 var path = require('path');
@@ -83,5 +83,32 @@ describe('graybullet-cordova:app', function () {
       'cordova/platforms/android/AndroidManifest.xml',
       'cordova/plugins/org.apache.cordova.camera/plugin.xml'
     ]);
+  });
+
+  it('create bowerrc', function () {
+    assert.file('.bowerrc', /directory/);
+  });
+
+  it('validate package.json', function () {
+    var packageJson = util.readPackageJson();
+
+    expect(packageJson.devDependencies.cordova).toEqual('4.0.0');
+    expect(packageJson.devDependencies['grunt-cordova-ng']).toEqual('^0.1.3');
+  });
+
+  it('validate Gruntfile.js', function () {
+    assert.fileContent('Gruntfile.js', /dist: 'cordova\/www'/);
+    assert.fileContent('Gruntfile.js', /grunt.loadNpmTasks\('grunt-cordova-ng'\);/);
+    assert.fileContent('Gruntfile.js', /cordova: \{\n\s+options: \{\n\s+projectRoot: '\.\/cordova'\n\s+\}\n\s+\}/);
+    assert.fileContent('Gruntfile.js', /connect.static\('\.\/fake'\)/);
+    assert.fileContent('Gruntfile.js', /grunt.registerTask\('buildweb'/);
+    assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-build', \['cordova:build\'\]\)/);
+    assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-emulate', \['cordova:emulate\'\]\)/);
+    assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-run', \['cordova:run\'\]\)/);
+    assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-compile', \['cordova:compile\'\]\)/);
+    assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-prepare', \['cordova:prepare\'\]\)/);
+    assert.fileContent('Gruntfile.js', /grunt.registerTask\('build', \['buildweb\', \'cordova-build\'\]\)/);
+    assert.fileContent('Gruntfile.js', /grunt.registerTask\('emulate', \['buildweb', 'cordova-emulate'\]\)/);
+    assert.fileContent('Gruntfile.js', /grunt.registerTask\('run', \['buildweb', 'cordova-run'\]\)/);
   });
 });
