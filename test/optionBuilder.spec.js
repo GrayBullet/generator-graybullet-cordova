@@ -1,4 +1,4 @@
-/* global describe, beforeEach, it, expect, spyOn */
+/* global describe, beforeEach, it, expect */
 
 'use strict';
 

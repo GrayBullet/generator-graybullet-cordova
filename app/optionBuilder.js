@@ -5,8 +5,8 @@ var _ = require('underscore');
 /**
  * Delegated option builder of Yeoman generator.
  * @constructor
- * @param {Generator} Current running Yeoman generator.
- * @param {Generator} Delegated Yeoman generator.
+ * @param {Generator} current Current running Yeoman generator.
+ * @param {Generator} base Delegated Yeoman generator.
  */
 var OptionBuilder = function (current, base) {
   this.current = current;
