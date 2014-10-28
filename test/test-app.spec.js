@@ -61,7 +61,8 @@ describe('graybullet-cordova:app', function () {
           .withPrompt({
             id: 'com.example.hogeApp',
             name: 'HogeApp',
-            platforms: ['android']
+            platforms: ['android'],
+            plugins: ['org.apache.cordova.camera']
           })
           .withGenerators(dependencies)
           .on('end', callback);
@@ -79,7 +80,8 @@ describe('graybullet-cordova:app', function () {
       '.editorconfig',
       '.jshintrc',
       'cordova/config.xml',
-      'cordova/platforms/android/AndroidManifest.xml'
+      'cordova/platforms/android/AndroidManifest.xml',
+      'cordova/plugins/org.apache.cordova.camera/plugin.xml'
     ]);
   });
 });

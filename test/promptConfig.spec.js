@@ -37,4 +37,29 @@ describe('promptConfig', function () {
       });
     });
   });
+
+  describe('getPlugins', function () {
+    it('Get plugins', function () {
+      var result = promptConfig.getPlugins([
+        {name: 'org.apache.cordova.geolocation', description: 'Cordova Geolocation Plugin'},
+        {name: 'org.apache.cordova.camera', description: 'Cordova Camera Plugin'},
+        {name: 'org.apache.cordova.device', description: 'Cordova Device Plugin'},
+        {name: 'org.apache.cordova.console', description: 'Cordova Console Plugin'}
+      ]);
+
+      expect(result).toEqual({
+        type: 'checkbox',
+        choices: [
+          {name: 'Cordova Console Plugin', value: 'org.apache.cordova.console'},
+          {name: 'Cordova Device Plugin', value: 'org.apache.cordova.device'},
+          {name: 'Cordova Geolocation Plugin', value: 'org.apache.cordova.geolocation'},
+          {name: 'Cordova Camera Plugin', value: 'org.apache.cordova.camera'}
+        ],
+        'default': [
+          'org.apache.cordova.console',
+          'org.apache.cordova.device'
+        ]
+      });
+    });
+  });
 });

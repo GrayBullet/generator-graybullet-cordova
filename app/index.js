@@ -3,6 +3,7 @@
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
 var cordova = new (require('./cordovaAdapter.js'))('cordova');
+var _ = require('underscore');
 var OptionBuilder = require('./optionBuilder.js');
 var promptConfig = require('./promptConfig.js');
 
@@ -67,7 +68,7 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
 
       var prompt = function (platforms) {
         var prompts = [
-          promptConfig.getPlatforms(platforms, {
+          _.extend(promptConfig.getPlatforms(platforms), {
             name: 'platforms',
             message: 'What app of the platform to be created?'
           })
@@ -92,6 +93,39 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
 
         cordova.addPlatform(this.projectOptions.platforms, done);
       }
+    },
+
+    /**
+     * Prompting adding plugins.
+     */
+    promptingAddPlugins: function () {
+      var done = this.async();
+
+      var prompt = function (plugins) {
+        var prompts = [
+          _.extend(promptConfig.getPlugins(plugins), {
+            name: 'plugins',
+            message: 'Are you sure you want to add any plugins?'
+          })
+        ];
+
+        this.prompt(prompts, function (props) {
+          this.projectOptions.plugins = props.plugins;
+
+          done();
+        }.bind(this));
+      }.bind(this);
+
+      cordova.searchPlugin('org.apache.cordova', prompt);
+    },
+
+    /**
+     * Add plugins.
+     */
+    addPlugins: function () {
+      var done = this.async();
+
+      cordova.addPlugin(this.projectOptions.plugins, done);
     },
 
     createWebappProject: function () {
