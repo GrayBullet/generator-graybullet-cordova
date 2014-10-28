@@ -3,8 +3,17 @@
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
 var cordova = new (require('./cordovaAdapter.js'))('cordova');
+var OptionBuilder = require('./optionBuilder.js');
 
 var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
+  constructor: function () {
+    yeoman.Base.apply(this, arguments);
+
+    // Delegate options from generator-webapp.
+    this.optionBuilder = new OptionBuilder(this, this.env.create('webapp'));
+    this.optionBuilder.copyDelegatedDefines();
+  },
+
   initializing: function () {
     this.pkg = require('../package.json');
 
@@ -44,12 +53,11 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
     },
 
     createWebappProject: function () {
-      this.composeWith('webapp', {'skip-install': true});
-    }
-  },
+      // Delegate options to generator-webapp.
+      var options = this.optionBuilder.getDelegatedValues();
 
-  end: function () {
-//    this.installDependencies();
+      this.composeWith('webapp', {options: options});
+    }
   }
 });
 
