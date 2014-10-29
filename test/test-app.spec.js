@@ -118,4 +118,8 @@ describe('graybullet-cordova:app', function () {
   it('validate index.html', function () {
     assert.fileContent('app/index.html', /<script src="cordova.js"><\/script>\n\s*<\/body>/);
   });
+
+  it('validate main.js', function () {
+    assert.fileContent('app/scripts/main.js', /\$\(document\).on\('deviceready', function \(\) \{\n  console.log\('deviceready'\);\n\}\);/);
+  });
 });

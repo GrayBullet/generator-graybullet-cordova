@@ -32,6 +32,42 @@ FileModifier.prototype.commit = function () {
 };
 
 /**
+ * 'main.js' file builder.
+ * @constructor
+ */
+var MainJs = function () {
+  this.modifier_ = new FileModifier('app/scripts/main.js');
+};
+
+/**
+ * Save all changes.
+ */
+MainJs.prototype.commit = function () {
+  this.modifier_.commit();
+};
+
+/**
+ * Replace text.
+ * @private
+ * @param {RegExp} regexp RegExp object.
+ * @param {String} replace replace text.
+ * @param {Object} return this.
+ */
+MainJs.prototype.replace_ = function (regexp, replace) {
+  this.modifier_.replace(regexp, replace);
+
+  return this;
+};
+
+/**
+ * Append script code to last.
+ * @param {String} script script.
+ */
+MainJs.prototype.appendToLast = function (script) {
+  return this.replace_(/(\n?)$/, '\n\n' + script + '$1');
+};
+
+/**
  * 'index.html' file builder.
  * @constructor
  */
@@ -214,6 +250,14 @@ GruntfileJs.prototype.appendTask = function (name, tasks) {
  * @constructor
  */
 var ProjectFiles = function () {};
+
+/**
+ * Load 'main.js' builder.
+ * @return {MainJs} 'index.html' builder.
+ */
+ProjectFiles.prototype.loadMainJs = function () {
+  return new MainJs();
+};
 
 /**
  * Load 'index.html' builder.

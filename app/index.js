@@ -166,6 +166,12 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
           files.loadIndexHtml()
             .appendScript('cordova.js')
             .commit();
+
+          files.loadMainJs()
+            .appendToLast('$(document).on(\'deviceready\', function () {\n' +
+                          '  console.log(\'deviceready\');\n' +
+                          '});')
+            .commit();
         };
       };
 
