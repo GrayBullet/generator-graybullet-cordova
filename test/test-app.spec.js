@@ -81,7 +81,8 @@ describe('graybullet-cordova:app', function () {
       '.jshintrc',
       'cordova/config.xml',
       'cordova/platforms/android/AndroidManifest.xml',
-      'cordova/plugins/org.apache.cordova.camera/plugin.xml'
+      'cordova/plugins/org.apache.cordova.camera/plugin.xml',
+      'fake/cordova.js'
     ]);
   });
 
@@ -112,5 +113,9 @@ describe('graybullet-cordova:app', function () {
     assert.fileContent('Gruntfile.js', /grunt.registerTask\('run', \['buildweb', 'cordova-run'\]\)/);
     assert.fileContent('Gruntfile.js', /grunt.registerTask\('compile', \['buildweb', 'cordova-compile'\]\)/);
     assert.fileContent('Gruntfile.js', /grunt.registerTask\('prepare', \['buildweb', 'cordova-prepare'\]\)/);
+  });
+
+  it('validate index.html', function () {
+    assert.fileContent('app/index.html', /<script src="cordova.js"><\/script>\n\s*<\/body>/);
   });
 });

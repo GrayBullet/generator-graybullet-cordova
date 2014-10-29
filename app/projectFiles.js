@@ -3,8 +3,75 @@
 var fs = require('fs');
 
 /**
+ * File modifier.
+ * @constructor
+ * @param {String} path target file path.
+ */
+var FileModifier = function (path) {
+  this.data_ = fs.readFileSync(path, 'utf-8');
+  this.path_ = path;
+};
+
+/**
+ * Replace text.
+ * @private
+ * @param {RegExp} regexp RegExp object.
+ * @param {String} replace replace text.
+ */
+FileModifier.prototype.replace = function (regexp, replace) {
+  this.data_ = this.data_.replace(regexp, replace);
+
+  return this;
+};
+
+/**
+ * Save all changes.
+ */
+FileModifier.prototype.commit = function () {
+  fs.writeFileSync(this.path_, this.data_, 'utf-8');
+};
+
+/**
+ * 'index.html' file builder.
+ * @constructor
+ */
+var IndexHtml = function () {
+  this.modifier_ = new FileModifier('app/index.html');
+};
+
+/**
+ * Save all changes.
+ */
+IndexHtml.prototype.commit = function () {
+  this.modifier_.commit();
+};
+
+/**
+ * Replace text.
+ * @private
+ * @param {RegExp} regexp RegExp object.
+ * @param {String} replace replace text.
+ * @param {Object} return this.
+ */
+IndexHtml.prototype.replace_ = function (regexp, replace) {
+  this.modifier_.replace(regexp, replace);
+
+  return this;
+};
+
+/**
+ * Append <script> element before </body>.
+ * @param {String} path Script path.
+ * @desc   <script src="hoge.js"></script> <!-- Add this line. -->
+ *       </body>
+ */
+IndexHtml.prototype.appendScript = function (path) {
+  return this.replace_(/^(\s*<\/body>)/m, '\n    <script src="' + path + '"></script>\n$1');
+};
+
+/**
  * 'package.json' file builder.
- * @Constructor
+ * @constructor
  */
 var PackageJson = function () {
   this.data_ = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
@@ -33,14 +100,14 @@ PackageJson.prototype.appendToDevDependencies = function (name, version) {
  * @Constructor
  */
 var GruntfileJs = function () {
-  this.data_ = fs.readFileSync('Gruntfile.js', 'utf-8');
+  this.modifier_ = new FileModifier('Gruntfile.js');
 };
 
 /**
  * Save all changes.
  */
 GruntfileJs.prototype.commit = function () {
-  fs.writeFileSync('Gruntfile.js', this.data_, 'utf-8');
+  this.modifier_.commit();
 };
 
 /**
@@ -48,9 +115,10 @@ GruntfileJs.prototype.commit = function () {
  * @private
  * @param {RegExp} regexp RegExp object.
  * @param {String} replace replace text.
+ * @return {Object} returnt this.
  */
 GruntfileJs.prototype.replace_ = function (regexp, replace) {
-  this.data_ = this.data_.replace(regexp, replace);
+  this.modifier_.replace(regexp, replace);
 
   return this;
 };
@@ -146,6 +214,14 @@ GruntfileJs.prototype.appendTask = function (name, tasks) {
  * @constructor
  */
 var ProjectFiles = function () {};
+
+/**
+ * Load 'index.html' builder.
+ * @return {IndexHtml} 'index.html' builder.
+ */
+ProjectFiles.prototype.loadIndexHtml = function () {
+  return new IndexHtml();
+};
 
 /**
  * Load 'package.json' builder.

@@ -162,12 +162,21 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
             .appendTask('compile', ['buildweb', 'cordova-compile'])
             .appendTask('prepare', ['buildweb', 'cordova-prepare'])
             .commit();
+
+          files.loadIndexHtml()
+            .appendScript('cordova.js')
+            .commit();
         };
       };
 
       var subGenerator = this.composeWith('webapp', {options: options});
       subGenerator.on('end', createReplaceFiles(subGenerator));
     }
+  },
+
+  writing: function () {
+    this.dest.mkdir('fake');
+    this.src.copy('cordova.js', 'fake/cordova.js');
   }
 });
 
