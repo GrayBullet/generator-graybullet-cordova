@@ -120,6 +120,7 @@ describe('graybullet-cordova:app', function () {
   });
 
   it('validate main.js', function () {
-    assert.fileContent('app/scripts/main.js', /\$\(document\).on\('deviceready', function \(\) \{\n  console.log\('deviceready'\);\n\}\);/);
+    assert.fileContent('app/scripts/main.js',
+                       /\$\(document\).on\('deviceready', function \(\) \{\n  console.log\('deviceready'\);\n\}\);/);
   });
 });
