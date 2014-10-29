@@ -159,6 +159,8 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
             .appendTask('build', ['buildweb', 'cordova-build'])
             .appendTask('emulate', ['buildweb', 'cordova-emulate'])
             .appendTask('run', ['buildweb', 'cordova-run'])
+            .appendTask('compile', ['buildweb', 'cordova-compile'])
+            .appendTask('prepare', ['buildweb', 'cordova-prepare'])
             .commit();
         };
       };
