@@ -45,7 +45,7 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
       ];
 
       this.prompt(prompts, function (props) {
-        this.projectOptions.name = props.appName;
+        this.projectOptions.name = props.name;
         this.projectOptions.id = props.id;
 
         done();
