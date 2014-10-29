@@ -1,0 +1,16 @@
+# Contents work directory
+/www
+
+# Additional ignores for android platform
+/platforms/android/assets/www
+/platforms/android/res/xml/config.xml
+
+# Additional ignores for ios platform
+/platforms/ios/cordova/console.log
+/platforms/ios/www
+/platforms/ios/*/config.xml
+
+# CB-7726 https://issues.apache.org/jira/browse/CB-7726
+# Typo in .gitignore template
+/platforms/android/ant-build
+/platforms/android/*/ant-build
