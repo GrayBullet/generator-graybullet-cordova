@@ -5,6 +5,7 @@ var path = require('path');
 var assert = require('yeoman-generator').assert;
 var helpers = require('yeoman-generator').test;
 var os = require('os');
+var _ = require('underscore');
 var util = require('./lib/util.js');
 
 describe('graybullet-cordova:app', function () {
@@ -116,7 +117,27 @@ describe('graybullet-cordova:app', function () {
   });
 
   it('validate index.html', function () {
+    var viewport = _.chain({
+      'user-scalable': 'no',
+      'initial-scale': 1,
+      'maximum-scale': 1,
+      'minimum-scale': 1,
+      'width': 'device-width',
+      'height': 'device-height',
+      'target-densitydpi': 'device-dpi'
+    })
+      .pairs()
+      .map(function (pair) { return pair[0] + '=' + pair[1]; })
+      .value()
+      .join(', ');
+
+    var viewportActual = new RegExp('<meta name="viewport" content="' + viewport + '">');
+
     assert.fileContent('app/index.html', /<script src="cordova.js"><\/script>\n\s*<\/body>/);
+    assert.noFileContent('app/index.html', /<meta name="viewport" content="width=device-width">/);
+    assert.fileContent('app/index.html', viewportActual);
+    assert.fileContent('app/index.html', /<meta name="format-detection" content="telephone=no">/);
+    assert.fileContent('app/index.html', /<meta name="msapplication-tap-highlight" content="no">/);
   });
 
   it('validate main.js', function () {

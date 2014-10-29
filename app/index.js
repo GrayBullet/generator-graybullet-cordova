@@ -165,6 +165,7 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
 
           files.loadIndexHtml()
             .appendScript('cordova.js')
+            .setMetas(cordova.getMetasFromIndexHtml()) // Copy meta informations.
             .commit();
 
           files.loadMainJs()

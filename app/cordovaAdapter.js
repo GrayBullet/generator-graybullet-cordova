@@ -1,6 +1,7 @@
 'use strict';
 
 var fs = require('fs');
+var path = require('path');
 var execFile = require('child_process').execFile;
 
 (function () {
@@ -104,6 +105,26 @@ var execFile = require('child_process').execFile;
     if (!fs.existsSync(this.options.projectRoot)) {
       fs.mkdirSync(this.options.projectRoot);
     }
+  };
+
+  CordovaAdapter.prototype.getMetasFromIndexHtml = function () {
+    var regexp = '<meta name="([^"]*)" content="([^"]*)';
+    var indexHtmlPath = path.join(this.options.projectRoot, 'www/index.html');
+
+    // return [
+    //   {name: 'viewport', content: '...'},
+    //   {name: 'msapplication-tap-highlight', content: '...'},
+    //   {name: 'format-detection', content: '...'}
+    // ]
+    return fs.readFileSync(indexHtmlPath, 'utf-8')
+      .match(new RegExp(regexp, 'mg'))
+      .map(function (line) {
+        var result = line.match(new RegExp(regexp));
+        return {
+          name: result[1],
+          content: result[2]
+        };
+      });
   };
 
   module.exports = CordovaAdapter;
