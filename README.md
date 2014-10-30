@@ -10,7 +10,7 @@ For more information on what `generator-graybullet-cordova` can do for you, take
 
 
 ## Getting Started
-* Install: npm insatall -g generator-graybullet-cordova cordova@4.0.0
+* Install: npm install -g generator-graybullet-cordova cordova@4.0.0
 * Run: yo graybullet-cordova
 * Run `grunt` for building and `grunt serve` for PC browser preview.
 
