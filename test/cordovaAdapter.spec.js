@@ -5,12 +5,13 @@
 var _ = require('underscore');
 
 describe('CordovaAdapter', function () {
+  var CordovaAdapter;
   var cordova;
   var executeArguments;
   var callbackArguments;
 
   beforeEach(function () {
-    var CordovaAdapter = require('../app/cordovaAdapter.js');
+    CordovaAdapter = require('../app/cordovaAdapter.js');
     cordova = new CordovaAdapter('cordova');
 
     executeArguments = [];
@@ -122,6 +123,18 @@ describe('CordovaAdapter', function () {
 
           done();
         });
+      });
+    });
+  });
+
+  describe('getCordovaCommand', function () {
+    it('Get cordova command for Windows.', function () {
+      expect(CordovaAdapter.getCordovaCommand('win32')).toEqual('cordova.cmd');
+    });
+
+    ['linux', 'darwin', 'unknown'].forEach(function (platform) {
+      it('Get cordova command for ' + platform , function () {
+        expect(CordovaAdapter.getCordovaCommand(platform)).toEqual('cordova');
       });
     });
   });

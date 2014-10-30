@@ -49,6 +49,7 @@ var execFile = require('child_process').execFile;
 
   var CordovaAdapter = function (projectRoot) {
     this.options = {};
+    this.cordovaCommand_ = CordovaAdapter.getCordovaCommand();
 
     if (projectRoot) {
       this.options.projectRoot = projectRoot;
@@ -84,7 +85,7 @@ var execFile = require('child_process').execFile;
   };
 
   CordovaAdapter.prototype.execute = function (args, callback) {
-    this.execFile_('cordova', args, this.getExecFileOptions(), callback);
+    this.execFile_(this.cordovaCommand_, args, this.getExecFileOptions(), callback);
   };
 
   CordovaAdapter.prototype.getExecFileOptions = function () {
@@ -125,6 +126,11 @@ var execFile = require('child_process').execFile;
           content: result[2]
         };
       });
+  };
+
+  CordovaAdapter.getCordovaCommand = function (optPlatform) {
+    var platform = optPlatform || process.platform;
+    return platform === 'win32' ? 'cordova.cmd' : 'cordova';
   };
 
   module.exports = CordovaAdapter;
