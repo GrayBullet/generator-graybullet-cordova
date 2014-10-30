@@ -5,7 +5,7 @@
   "license": "MIT",
   "main": "app/index.js",
   "repository": "GrayBullet/generator-graybullet-cordova",
-  "author": "GrayBullet Team"
+  "author": "GrayBullet Team",
   "engines": {
     "node": ">=0.10.0"
   },
