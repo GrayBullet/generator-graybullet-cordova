@@ -40,11 +40,33 @@ describe('CordovaAdapter', function () {
     });
   });
 
-  describe('addPlatform', function () {
-    it('Add platform', function (done) {
-      cordova.addPlatform('android', function () {
+  describe('addPlatforms', function () {
+    it('Add single platform', function (done) {
+      cordova.addPlatforms('android', function () {
         expect(_.initial(cordova.execFile_.mostRecentCall.args))
           .toEqual(['cordova', ['platform', 'add', 'android'], {cwd: 'cordova'}]);
+
+        done();
+      });
+    });
+
+    it('Add one platform', function (done) {
+      cordova.addPlatforms(['ios'], function () {
+        expect(_.initial(cordova.execFile_.mostRecentCall.args))
+          .toEqual(['cordova',
+                    ['platform', 'add', 'ios'],
+                    {cwd: 'cordova'}]);
+
+        done();
+      });
+    });
+
+    it('Add two platforms', function (done) {
+      cordova.addPlatforms(['android', 'ios'], function () {
+        expect(_.initial(cordova.execFile_.mostRecentCall.args))
+          .toEqual(['cordova',
+                    ['platform', 'add', 'android', 'ios'],
+                    {cwd: 'cordova'}]);
 
         done();
       });

@@ -64,8 +64,10 @@ var execFile = require('child_process').execFile;
     this.execute(['create', '.', id, name], callback);
   };
 
-  CordovaAdapter.prototype.addPlatform = function (platform, callback) {
-    this.execute(['platform', 'add', platform], callback);
+  CordovaAdapter.prototype.addPlatforms = function (platforms, callback) {
+    var array = Array.isArray(platforms) ? platforms : [platforms];
+
+    this.execute(['platform', 'add'].concat(array), callback);
   };
 
   CordovaAdapter.prototype.getAvailablePlatforms = function (callback) {

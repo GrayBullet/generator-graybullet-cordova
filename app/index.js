@@ -92,7 +92,7 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
       if (this.projectOptions.platforms.length > 0) {
         var done = this.async();
 
-        cordova.addPlatform(this.projectOptions.platforms, done);
+        cordova.addPlatforms(this.projectOptions.platforms, done);
       }
     },
 
