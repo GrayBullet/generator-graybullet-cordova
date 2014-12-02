@@ -143,7 +143,11 @@ describe('graybullet-cordova:app', function () {
   });
 
   it('validate main.js', function () {
-    assert.fileContent('app/scripts/main.js',
-                       /\$\(document\).on\('deviceready', function \(\) \{\n  \'use strict\';\n\n  console.log\('deviceready'\);\n\}\);/);
+    var content = new RegExp('\\$\\(document\\).on\\(\'deviceready\', function \\(\\) {\n' + // jshint ignore:line
+                             '  \'use strict\';\n' +
+                             '\n' +
+                             '  console.log\\(\'deviceready\'\\);\n\\}\\);'); // jshint ignore:line
+
+    assert.fileContent('app/scripts/main.js', content);
   });
 });

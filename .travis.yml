@@ -3,8 +3,13 @@ android:
   components:
     - build-tools-20.0.0
     - android-19
+env:
+  - CORDOVA_VERSION=4.0.0
+  - CORDOVA_VERSION=4.1.0
+  - CORDOVA_VERSION=4.1.1
+  - CORDOVA_VERSION=4.1.2
 before_install:
-  - npm install -g grunt-cli generator-webapp@0.5.1 cordova@4.0.0
+  - npm install -g grunt-cli generator-webapp@0.5.1 cordova@$CORDOVA_VERSION
   - currentfolder=${PWD##*/}
   - if [ "$currentfolder" != 'generator-graybullet-cordova' ]; then cd .. && eval "mv $currentfolder generator-graybullet-cordova" && cd generator-graybullet-cordova; fi
   - npm install
