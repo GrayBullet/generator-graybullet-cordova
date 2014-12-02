@@ -170,6 +170,8 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
 
           files.loadMainJs()
             .appendToLast('$(document).on(\'deviceready\', function () {\n' +
+                          '  \'use strict\';\n' +
+                          '\n' +
                           '  console.log(\'deviceready\');\n' +
                           '});')
             .commit();
