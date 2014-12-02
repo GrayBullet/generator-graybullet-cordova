@@ -86,6 +86,29 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
     },
 
     /**
+     * Before add Cordova Platforms.
+     */
+    beforeAddPlatforms: function () {
+      var path = require('path');
+      var fs = require('fs');
+
+      var source = path.join(this.sourceRoot(),
+                             '_after_platform_add_android.js');
+      var destination = path.join(this.destinationRoot(),
+                                  'cordova/hooks/after_platform_add/after_platform_add_android.js');
+
+      // copy file.
+      fs.mkdirSync(path.dirname(destination));
+      var data = fs.readFileSync(source);
+      fs.writeFileSync(destination, data);
+
+      // syncronize stats and modification times.
+      var stats = fs.statSync(source);
+      fs.chmodSync(destination, stats.mode);
+      fs.utimesSync(destination, stats.atime, stats.mtime);
+    },
+
+    /**
      * Add Cordova Platforms to Apache Cordova Project.
      */
     addPlatforms: function () {
