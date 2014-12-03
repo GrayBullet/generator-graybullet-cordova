@@ -86,6 +86,12 @@ var execFile = require('child_process').execFile;
     this.execute(['plugin', 'add'].concat(plugins), callback);
   };
 
+  CordovaAdapter.prototype.getVersion = function (callback) {
+    this.execute(['--version'], function (error, stdout) {
+      callback(stdout.trim());
+    });
+  };
+
   CordovaAdapter.prototype.execute = function (args, callback) {
     this.execFile_(this.cordovaCommand_, args, this.getExecFileOptions(), callback);
   };

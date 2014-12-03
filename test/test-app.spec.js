@@ -93,11 +93,15 @@ describe('graybullet-cordova:app', function () {
     assert.file('.bowerrc', /directory/);
   });
 
-  it('validate package.json', function () {
+  it('validate package.json', function (done) {
     var packageJson = util.readPackageJson();
+    var cordova = new (require('../app/cordovaAdapter.js'))('cordova');
 
-    expect(packageJson.devDependencies.cordova).toEqual('4.0.0');
     expect(packageJson.devDependencies['grunt-cordova-ng']).toEqual('^0.1.3');
+    cordova.getVersion(function (version) {
+      expect(packageJson.devDependencies.cordova).toEqual(version);
+      done();
+    });
   });
 
   it('validate Gruntfile.js', function () {

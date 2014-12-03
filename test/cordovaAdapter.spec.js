@@ -147,6 +147,20 @@ describe('CordovaAdapter', function () {
         });
       });
     });
+
+    describe('getVersion', function () {
+      it('Get version', function (done) {
+        callbackArguments = [
+          undefined,
+          '4.1.2\n'
+        ];
+
+        cordova.getVersion(function (version) {
+          expect(version).toEqual('4.1.2');
+          done();
+        });
+      });
+    });
   });
 
   describe('getCordovaCommand', function () {

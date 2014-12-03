@@ -153,6 +153,19 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
     },
 
     /**
+     * Get version.
+     */
+    getVersion: function () {
+      var done = this.async();
+
+      cordova.getVersion(function (version) {
+        this.projectOptions.version = version;
+
+        done();
+      }.bind(this));
+    },
+
+    /**
      * Run generator-webapp.
      */
     createWebappProject: function () {
@@ -164,7 +177,7 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
 
         return function () {
           files.loadPackageJson()
-            .appendToDevDependencies('cordova', '4.0.0')
+            .appendToDevDependencies('cordova', this.projectOptions.version)
             .appendToDevDependencies('grunt-cordova-ng', '^0.1.3')
             .commit();
 
@@ -202,11 +215,13 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
           files.loadGitIgnore()
             .replace(/^node_modules/, '/node_modules')
             .commit();
+
+          this.log('----');
         };
       };
 
       var subGenerator = this.composeWith('webapp', {options: options});
-      subGenerator.on('end', createReplaceFiles(subGenerator));
+      subGenerator.on('end', createReplaceFiles(subGenerator).bind(this));
     }
   },
 
