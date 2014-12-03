@@ -154,4 +154,8 @@ describe('graybullet-cordova:app', function () {
   it('validate after_platform_add_android.js', function () {
     assert.fileContent('cordova/hooks/after_platform_add/after_platform_add_android.js', /\.gitkeep/);
   });
+
+  it('validate .gitignore', function () {
+    assert.fileContent('.gitignore', /^\/node_modules/);
+  });
 });

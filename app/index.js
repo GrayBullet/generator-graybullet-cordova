@@ -198,6 +198,10 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
                           '  console.log(\'deviceready\');\n' +
                           '});')
             .commit();
+
+          files.loadGitIgnore()
+            .replace(/^node_modules/, '/node_modules')
+            .commit();
         };
       };
 

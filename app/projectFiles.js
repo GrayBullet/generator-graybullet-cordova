@@ -237,6 +237,34 @@ GruntfileJs.prototype.appendTask = function (name, tasks) {
 };
 
 /**
+ * '.gitignore' file builder.
+ * @constructor
+ */
+var GitIgnore = function () {
+  this.modifier_ = new FileModifier('.gitignore');
+};
+
+/**
+ * Save all changes.
+ */
+GitIgnore.prototype.commit = function () {
+  this.modifier_.commit();
+};
+
+/**
+ * Replace text.
+ * @private
+ * @param {RegExp} regexp RegExp object.
+ * @param {String} replace replace text.
+ * @param {Object} return this.
+ */
+GitIgnore.prototype.replace = function (regexp, replace) {
+  this.modifier_.replace(regexp, replace);
+
+  return this;
+};
+
+/**
  * Project files builder container.
  * @constructor
  */
@@ -272,6 +300,14 @@ ProjectFiles.prototype.loadPackageJson = function () {
  */
 ProjectFiles.prototype.loadGruntfileJs = function () {
   return new GruntfileJs();
+};
+
+/**
+ * Load '.gitignore' builder.
+ * @return {GitIgnore} '.gitignore' builder.
+ */
+ProjectFiles.prototype.loadGitIgnore = function () {
+  return new GitIgnore();
 };
 
 module.exports = ProjectFiles;
