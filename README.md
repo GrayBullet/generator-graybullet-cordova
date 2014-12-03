@@ -1,5 +1,5 @@
 # GrayBullet Cordova Web app generator
-[Yeoman](http://yeoman.io) generator that scaffolds out a front-end Apache Cordova web app.
+[Yeoman](http://yeoman.io) generator that scaffolds out a front-end Apache Cordova web app, Like [Webapp](https://github.com/yeoman/generator-webapp).
 
 
 ## Features
