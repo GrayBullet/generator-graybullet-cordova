@@ -29,6 +29,13 @@ For more option, take look at then [grunt-cordova-ng](https://github.com/GrayBul
 Please look at the [generator-webapps's Option section](https://github.com/yeoman/generator-webapp#options).
 
 
+## Supported Apache Cordova
+- 4.0.0
+- 4.1.0
+- 4.1.1
+- 4.1.2
+
+
 ## License
 
 [MIT License](LICENSE)
