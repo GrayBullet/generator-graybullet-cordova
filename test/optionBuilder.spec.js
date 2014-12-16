@@ -26,7 +26,8 @@ describe('optionBuilder', function () {
       _options: {
         'help': 'help option data',
         'skip-install': 'skip install option data',
-        'coffee': 'coffee option data'
+        'coffee': 'coffee option data',
+        'test-framework': 'test framework option data'
       }
     };
 
@@ -38,7 +39,8 @@ describe('optionBuilder', function () {
       expect(builder.getDelegatedDefines())
         .toEqual({
           'skip-install': 'skip install option data',
-          'coffee': 'coffee option data'
+          'coffee': 'coffee option data',
+          'test-framework': 'test framework option data'
         });
     });
   });
@@ -50,6 +52,16 @@ describe('optionBuilder', function () {
           'coffee': true
         });
     });
+
+    it('If option value changed', function () {
+      current.options['test-framework'] = 'jasmine';
+
+      expect(builder.getDelegatedValues())
+        .toEqual({
+          'coffee': true,
+          'test-framework': 'jasmine'
+        });
+    });
   });
 
   describe('copyDelegatedDefines', function () {
@@ -59,7 +71,8 @@ describe('optionBuilder', function () {
       expect(current._options).toEqual({
         'help': 'help option data',
         'skip-install': 'skip install option data',
-        'coffee': 'coffee option data'
+        'coffee': 'coffee option data',
+        'test-framework': 'test framework option data'
       });
     });
   });

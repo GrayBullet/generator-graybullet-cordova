@@ -11,6 +11,10 @@ var _ = require('underscore');
 var OptionBuilder = function (current, base) {
   this.current = current;
   this.base = base;
+
+  this.delegatedDefines = _.chain(this.base._options)
+    .omit(_.keys(this.current._options))
+    .value();
 };
 
 /**
@@ -18,9 +22,7 @@ var OptionBuilder = function (current, base) {
  * @return {object} Yeoman generator option defines object.
  */
 OptionBuilder.prototype.getDelegatedDefines = function () {
-  return _.chain(this.base._options)
-    .omit(_.keys(this.current._options))
-    .value();
+  return this.delegatedDefines;
 };
 
 /**
