@@ -215,8 +215,6 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
           files.loadGitIgnore()
             .replace(/^node_modules/, '/node_modules')
             .commit();
-
-          this.log('----');
         };
       };
 
