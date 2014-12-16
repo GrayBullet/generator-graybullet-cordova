@@ -74,92 +74,102 @@ describe('graybullet-cordova:app', function () {
     target.run(done);
   });
 
-  it('creates files', function () {
-    assert.file([
-      'bower.json',
-      'package.json',
-      '.editorconfig',
-      '.jshintrc',
-      'cordova/config.xml',
-      'cordova/platforms/android/AndroidManifest.xml',
-      'cordova/plugins/org.apache.cordova.camera/plugin.xml',
-      'cordova/.gitignore',
-      'cordova/www/.gitkeep',
-      'fake/cordova.js'
-    ]);
-  });
+  it('Generate project', function (done) {
+    // File created?
+    (function () {
+      assert.file([
+        'bower.json',
+        'package.json',
+        '.editorconfig',
+        '.jshintrc',
+        'cordova/config.xml',
+        'cordova/platforms/android/AndroidManifest.xml',
+        'cordova/plugins/org.apache.cordova.camera/plugin.xml',
+        'cordova/.gitignore',
+        'cordova/www/.gitkeep',
+        'fake/cordova.js'
+      ]);
+    })();
 
-  it('create bowerrc', function () {
-    assert.file('.bowerrc', /directory/);
-  });
+    // Valid .bowerrc created?
+    (function () {
+      assert.file('.bowerrc', /directory/);
+    })();
 
-  it('validate package.json', function (done) {
-    var packageJson = util.readPackageJson();
-    var cordova = new (require('../app/cordovaAdapter.js'))('cordova');
+    // Valid Gruntfile.js created?
+    (function () {
+      assert.fileContent('Gruntfile.js', /dist: 'cordova\/www'/);
+      assert.fileContent('Gruntfile.js', /grunt.loadNpmTasks\('grunt-cordova-ng'\);/);
+      assert.fileContent('Gruntfile.js', /cordova: \{\n\s+options: \{\n\s+projectRoot: '\.\/cordova'\n\s+\}\n\s+\}/);
+      assert.fileContent('Gruntfile.js', /connect.static\('\.\/fake'\)/);
+      assert.fileContent('Gruntfile.js', /grunt.registerTask\('buildweb'/);
+      assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-build', \['cordova:build\'\]\)/);
+      assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-emulate', \['cordova:emulate\'\]\)/);
+      assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-run', \['cordova:run\'\]\)/);
+      assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-compile', \['cordova:compile\'\]\)/);
+      assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-prepare', \['cordova:prepare\'\]\)/);
+      assert.fileContent('Gruntfile.js', /grunt.registerTask\('build', \['buildweb\', \'cordova-build\'\]\)/);
+      assert.fileContent('Gruntfile.js', /grunt.registerTask\('emulate', \['buildweb', 'cordova-emulate'\]\)/);
+      assert.fileContent('Gruntfile.js', /grunt.registerTask\('run', \['buildweb', 'cordova-run'\]\)/);
+      assert.fileContent('Gruntfile.js', /grunt.registerTask\('compile', \['buildweb', 'cordova-compile'\]\)/);
+      assert.fileContent('Gruntfile.js', /grunt.registerTask\('prepare', \['buildweb', 'cordova-prepare'\]\)/);
+    })();
 
-    expect(packageJson.devDependencies['grunt-cordova-ng']).toEqual('^0.1.3');
-    cordova.getVersion(function (version) {
-      expect(packageJson.devDependencies.cordova).toEqual(version);
-      done();
-    });
-  });
+    // Valid index.html created?
+    (function () {
+      var viewport = _.chain({
+        'user-scalable': 'no',
+        'initial-scale': 1,
+        'maximum-scale': 1,
+        'minimum-scale': 1,
+        'width': 'device-width',
+        'height': 'device-height',
+        'target-densitydpi': 'device-dpi'
+      })
+        .pairs()
+        .map(function (pair) { return pair[0] + '=' + pair[1]; })
+        .value()
+        .join(', ');
 
-  it('validate Gruntfile.js', function () {
-    assert.fileContent('Gruntfile.js', /dist: 'cordova\/www'/);
-    assert.fileContent('Gruntfile.js', /grunt.loadNpmTasks\('grunt-cordova-ng'\);/);
-    assert.fileContent('Gruntfile.js', /cordova: \{\n\s+options: \{\n\s+projectRoot: '\.\/cordova'\n\s+\}\n\s+\}/);
-    assert.fileContent('Gruntfile.js', /connect.static\('\.\/fake'\)/);
-    assert.fileContent('Gruntfile.js', /grunt.registerTask\('buildweb'/);
-    assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-build', \['cordova:build\'\]\)/);
-    assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-emulate', \['cordova:emulate\'\]\)/);
-    assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-run', \['cordova:run\'\]\)/);
-    assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-compile', \['cordova:compile\'\]\)/);
-    assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-prepare', \['cordova:prepare\'\]\)/);
-    assert.fileContent('Gruntfile.js', /grunt.registerTask\('build', \['buildweb\', \'cordova-build\'\]\)/);
-    assert.fileContent('Gruntfile.js', /grunt.registerTask\('emulate', \['buildweb', 'cordova-emulate'\]\)/);
-    assert.fileContent('Gruntfile.js', /grunt.registerTask\('run', \['buildweb', 'cordova-run'\]\)/);
-    assert.fileContent('Gruntfile.js', /grunt.registerTask\('compile', \['buildweb', 'cordova-compile'\]\)/);
-    assert.fileContent('Gruntfile.js', /grunt.registerTask\('prepare', \['buildweb', 'cordova-prepare'\]\)/);
-  });
+      var viewportActual = new RegExp('<meta name="viewport" content="' + viewport + '">');
 
-  it('validate index.html', function () {
-    var viewport = _.chain({
-      'user-scalable': 'no',
-      'initial-scale': 1,
-      'maximum-scale': 1,
-      'minimum-scale': 1,
-      'width': 'device-width',
-      'height': 'device-height',
-      'target-densitydpi': 'device-dpi'
-    })
-      .pairs()
-      .map(function (pair) { return pair[0] + '=' + pair[1]; })
-      .value()
-      .join(', ');
+      assert.fileContent('app/index.html', /<script src="cordova.js"><\/script>\n\s*<\/body>/);
+      assert.noFileContent('app/index.html', /<meta name="viewport" content="width=device-width">/);
+      assert.fileContent('app/index.html', viewportActual);
+      assert.fileContent('app/index.html', /<meta name="format-detection" content="telephone=no">/);
+      assert.fileContent('app/index.html', /<meta name="msapplication-tap-highlight" content="no">/);
+    })();
 
-    var viewportActual = new RegExp('<meta name="viewport" content="' + viewport + '">');
+    // Valid main.js created?
+    (function () {
+      var content = new RegExp('\\$\\(document\\).on\\(\'deviceready\', function \\(\\) {\n' + // jshint ignore:line
+                               '  \'use strict\';\n' +
+                               '\n' +
+                               '  console.log\\(\'deviceready\'\\);\n\\}\\);'); // jshint ignore:line
 
-    assert.fileContent('app/index.html', /<script src="cordova.js"><\/script>\n\s*<\/body>/);
-    assert.noFileContent('app/index.html', /<meta name="viewport" content="width=device-width">/);
-    assert.fileContent('app/index.html', viewportActual);
-    assert.fileContent('app/index.html', /<meta name="format-detection" content="telephone=no">/);
-    assert.fileContent('app/index.html', /<meta name="msapplication-tap-highlight" content="no">/);
-  });
+      assert.fileContent('app/scripts/main.js', content);
+    })();
 
-  it('validate main.js', function () {
-    var content = new RegExp('\\$\\(document\\).on\\(\'deviceready\', function \\(\\) {\n' + // jshint ignore:line
-                             '  \'use strict\';\n' +
-                             '\n' +
-                             '  console.log\\(\'deviceready\'\\);\n\\}\\);'); // jshint ignore:line
+    // Valid after_platform_add_android.js created?
+    (function () {
+      assert.fileContent('cordova/hooks/after_platform_add/after_platform_add_android.js', /\.gitkeep/);
+    })();
 
-    assert.fileContent('app/scripts/main.js', content);
-  });
+    // Valid .gitignore created?
+    (function () {
+      assert.fileContent('.gitignore', /^\/node_modules/);
+    })();
 
-  it('validate after_platform_add_android.js', function () {
-    assert.fileContent('cordova/hooks/after_platform_add/after_platform_add_android.js', /\.gitkeep/);
-  });
+    // Valid package.json created?
+    (function () {
+      var packageJson = util.readPackageJson();
+      var cordova = new (require('../app/cordovaAdapter.js'))('cordova');
 
-  it('validate .gitignore', function () {
-    assert.fileContent('.gitignore', /^\/node_modules/);
+      expect(packageJson.devDependencies['grunt-cordova-ng']).toEqual('^0.1.3');
+      cordova.getVersion(function (version) {
+        expect(packageJson.devDependencies.cordova).toEqual(version);
+        done();
+      });
+    })();
   });
 });
