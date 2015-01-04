@@ -111,7 +111,7 @@ describe('graybullet-cordova:app', function () {
         assert.fileContent('Gruntfile.js', /cordova: \{\n\s+options: \{\n\s+projectRoot: '\.\/cordova'\n\s+\}\n\s+\}/);
         assert.fileContent('Gruntfile.js', /connect.static\('\.\/fake'\)/);
         assert.fileContent('Gruntfile.js', /grunt.registerTask\('buildweb'/);
-        assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-build', \['cordova:build\'\]\)/);
+        assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-build', \['cordova:package\'\]\)/);
         assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-emulate', \['cordova:emulate\'\]\)/);
         assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-run', \['cordova:run\'\]\)/);
         assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-compile', \['cordova:compile\'\]\)/);

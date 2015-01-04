@@ -187,7 +187,7 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
             .appendCordovaRoot('./cordova')
             .appendConnectRoot('./fake')
             .renameTask('build', 'buildweb')
-            .appendTask('cordova-build', ['cordova:build'])
+            .appendTask('cordova-build', ['cordova:package'])
             .appendTask('cordova-emulate', ['cordova:emulate'])
             .appendTask('cordova-run', ['cordova:run'])
             .appendTask('cordova-compile', ['cordova:compile'])
