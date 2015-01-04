@@ -179,6 +179,14 @@ describe('graybullet-cordova:app', function () {
           done();
         });
       })();
+
+      // resources/android/config and resources/ios/config copied?
+      (function () {
+        assert.fileContent('resources/android/config', /^#KEYSTORE=/m);
+        assert.fileContent('resources/android/config', /^#KEYALIAS=/m);
+        assert.fileContent('resources/ios/config', /^#CODE_SIGN_IDENTITY=/m);
+        assert.fileContent('resources/ios/config', /^#MOBILEPROVISION=/m);
+      })();
     });
   });
 

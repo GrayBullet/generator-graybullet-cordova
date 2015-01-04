@@ -226,6 +226,8 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
   writing: function () {
     this.src.copy('_gitignore-cordova-external', 'cordova/.gitignore');
     this.src.copy('cordova.js', 'fake/cordova.js');
+    this.src.copy('android_config', 'resources/android/config');
+    this.src.copy('ios_config', 'resources/ios/config');
     this.dest.write('cordova/www/.gitkeep', '');
   }
 });
