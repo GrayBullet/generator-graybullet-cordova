@@ -178,7 +178,7 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
         return function () {
           files.loadPackageJson()
             .appendToDevDependencies('cordova', this.projectOptions.version)
-            .appendToDevDependencies('grunt-cordova-ng', '^0.1.3')
+            .appendToDevDependencies('grunt-cordova-ng', '^0.2.0')
             .commit();
 
           files.loadGruntfileJs()

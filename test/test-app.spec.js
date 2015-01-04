@@ -173,7 +173,7 @@ describe('graybullet-cordova:app', function () {
         var packageJson = util.readPackageJson();
         var cordova = new (require('../app/cordovaAdapter.js'))('cordova');
 
-        expect(packageJson.devDependencies['grunt-cordova-ng']).toEqual('^0.1.3');
+        expect(packageJson.devDependencies['grunt-cordova-ng']).toEqual('^0.2.0');
         cordova.getVersion(function (version) {
           expect(packageJson.devDependencies.cordova).toEqual(version);
           done();
