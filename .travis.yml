@@ -8,6 +8,7 @@ env:
   - CORDOVA_VERSION=4.1.0
   - CORDOVA_VERSION=4.1.1
   - CORDOVA_VERSION=4.1.2
+  - CORDOVA_VERSION=4.2.0
 before_install:
   - npm install -g grunt-cli generator-webapp@0.5.1 cordova@$CORDOVA_VERSION
   - currentfolder=${PWD##*/}
