@@ -8,8 +8,12 @@ var os = require('os');
 var _ = require('underscore');
 var util = require('./lib/util.js');
 
-var makeStubGenerator = function (testGeneratorName, options) {
+var makeStubGenerator = function (testGeneratorName, options, settings) {
   options = _.defaults(options, {'skip-install': true});
+  settings = _.defaults(settings || {}, {
+    platforms: ['android'],
+    plugins: ['org.apache.cordova.camera']
+  });
 
   var webapp = {
     name: 'webapp:app',
@@ -52,8 +56,8 @@ var makeStubGenerator = function (testGeneratorName, options) {
         .withPrompt({
           id: 'com.example.hogeApp',
           name: 'HogeApp',
-          platforms: ['android'],
-          plugins: ['org.apache.cordova.camera']
+          platforms: settings.platforms,
+          plugins: settings.plugins
         })
         .withGenerators(dependencies)
         .on('end', callback);
@@ -187,6 +191,16 @@ describe('graybullet-cordova:app', function () {
         assert.fileContent('resources/ios/config', /^#CODE_SIGN_IDENTITY=/m);
         assert.fileContent('resources/ios/config', /^#MOBILEPROVISION=/m);
       })();
+    });
+  });
+
+  describe('Cordova options', function () {
+    it('no plugin', function (done) {
+      makeStubGenerator('mocha:app', {}, {plugins: []}).run(done);
+    });
+
+    it('no platform', function  (done) {
+      makeStubGenerator('mocha:app', {}, {platforms: []}).run(done);
     });
   });
 

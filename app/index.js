@@ -8,15 +8,35 @@ var OptionBuilder = require('./optionBuilder.js');
 var promptConfig = require('./promptConfig.js');
 var ProjectFiles = require('./projectFiles.js');
 
-var searchOfficialPlugins = function (callback) {
-  return cordova.searchPlugin('org.apache.cordova', function (plugins) {
-    // cordova plugin search error with Node.js@0.11.15
-    // If plugin search failed, use default plugin list.
-    if (!plugins || plugins.length <= 0) {
-      plugins = require('./plugins.js').default;
+var projectBuilder = {
+  create: _.bind(cordova.create, cordova),
+  getAvailablePlatforms: function (callback) {
+    return cordova.getAvailablePlatforms(callback);
+  },
+  addPlatforms: function (platforms, callback) {
+    if (platforms && platforms.length > 0) {
+      cordova.addPlatforms(platforms, callback);
+    } else {
+      callback();
     }
-    callback(plugins);
-  });
+  },
+  searchOfficialPlugins: function (callback) {
+    return cordova.searchPlugin('org.apache.cordova', function (plugins) {
+      // cordova plugin search error with Node.js@0.11.15
+      // If plugin search failed, use default plugin list.
+      if (!plugins || plugins.length <= 0) {
+        plugins = require('./plugins.js').default;
+      }
+      callback(plugins);
+    });
+  },
+  addPlugins: function (plugins, callback) {
+    if (plugins && plugins.length > 0) {
+      cordova.addPlugin(plugins, callback);
+    } else {
+      callback();
+    }
+  }
 };
 
 var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
@@ -67,9 +87,9 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
      * Create Apache Cordova project to 'cordova' directory.
      */
     createCordovaProject: function () {
-      var done = this.async();
-
-      cordova.create(this.projectOptions.id, this.projectOptions.name, done);
+      projectBuilder.create(this.projectOptions.id,
+                            this.projectOptions.name,
+                            this.async());
     },
 
     /**
@@ -93,7 +113,7 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
         }.bind(this));
       }.bind(this);
 
-      cordova.getAvailablePlatforms(prompt);
+      projectBuilder.getAvailablePlatforms(prompt);
     },
 
     /**
@@ -123,11 +143,7 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
      * Add Cordova Platforms to Apache Cordova Project.
      */
     addPlatforms: function () {
-      if (this.projectOptions.platforms.length > 0) {
-        var done = this.async();
-
-        cordova.addPlatforms(this.projectOptions.platforms, done);
-      }
+      projectBuilder.addPlatforms(this.projectOptions.platforms, this.async());
     },
 
     /**
@@ -151,16 +167,14 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
         }.bind(this));
       }.bind(this);
 
-      searchOfficialPlugins(prompt);
+      projectBuilder.searchOfficialPlugins(prompt);
     },
 
     /**
      * Add plugins.
      */
     addPlugins: function () {
-      var done = this.async();
-
-      cordova.addPlugin(this.projectOptions.plugins, done);
+      projectBuilder.addPlugins(this.projectOptions.plugins, this.async());
     },
 
     /**
