@@ -11,8 +11,6 @@ env:
   - CORDOVA_VERSION=4.1.2 NODE_VERSION=0.11
   - CORDOVA_VERSION=4.2.0 NODE_VERSION=0.11
 before_install:
-  - curl https://raw.githubusercontent.com/creationix/nvm/v0.23.2/install.sh | bash
-  - . ~/.nvm/nvm.sh
   - nvm instal $NODE_VERSION && nvm use $NODE_VERSION
   - npm install -g grunt-cli generator-webapp@0.5.1 cordova@$CORDOVA_VERSION
   - currentfolder=${PWD##*/}
