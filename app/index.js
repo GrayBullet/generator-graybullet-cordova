@@ -8,6 +8,17 @@ var OptionBuilder = require('./optionBuilder.js');
 var promptConfig = require('./promptConfig.js');
 var ProjectFiles = require('./projectFiles.js');
 
+var searchOfficialPlugins = function (callback) {
+  return cordova.searchPlugin('org.apache.cordova', function (plugins) {
+    // cordova plugin search error with Node.js@0.11.15
+    // If plugin search failed, use default plugin list.
+    if (!plugins || plugins.length <= 0) {
+      plugins = require('./plugins.js').default;
+    }
+    callback(plugins);
+  });
+};
+
 var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
   constructor: function () {
     yeoman.Base.apply(this, arguments);
@@ -140,7 +151,7 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
         }.bind(this));
       }.bind(this);
 
-      cordova.searchPlugin('org.apache.cordova', prompt);
+      searchOfficialPlugins(prompt);
     },
 
     /**
