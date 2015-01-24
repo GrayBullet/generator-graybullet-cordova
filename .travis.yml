@@ -4,11 +4,12 @@ android:
     - build-tools-20.0.0
     - android-19
 env:
-  - CORDOVA_VERSION=4.0.0
-  - CORDOVA_VERSION=4.1.0
-  - CORDOVA_VERSION=4.1.1
-  - CORDOVA_VERSION=4.1.2
-  - CORDOVA_VERSION=4.2.0
+  - CORDOVA_VERSION=4.0.0 NODE_VERSION=0.10
+  - CORDOVA_VERSION=4.1.2 NODE_VERSION=0.10
+  - CORDOVA_VERSION=4.2.0 NODE_VERSION=0.10
+  - CORDOVA_VERSION=4.0.0 NODE_VERSION=0.11
+  - CORDOVA_VERSION=4.1.2 NODE_VERSION=0.11
+  - CORDOVA_VERSION=4.2.0 NODE_VERSION=0.11
 before_install:
   - npm install -g grunt-cli generator-webapp@0.5.1 cordova@$CORDOVA_VERSION
   - currentfolder=${PWD##*/}
