@@ -12,6 +12,7 @@ env:
   - CORDOVA_VERSION=4.2.0 NODE_VERSION=0.12
 before_install:
   - nvm install $NODE_VERSION && nvm use $NODE_VERSION
+  - npm update -g npm
   - npm install -g grunt-cli generator-webapp@0.5.1 cordova@$CORDOVA_VERSION
   - node --version
   - npm --version
