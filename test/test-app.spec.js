@@ -1,73 +1,10 @@
 /* global jasmine, describe, beforeEach, afterEach, it, expect */
 'use strict';
 
-var path = require('path');
 var assert = require('yeoman-generator').assert;
-var helpers = require('yeoman-generator').test;
-var os = require('os');
 var _ = require('underscore');
 var util = require('./lib/util.js');
-
-var makeStubGenerator = function (testGeneratorName, options, settings) {
-  options = _.defaults(options, {'skip-install': true});
-  settings = _.defaults(settings || {}, {
-    platforms: ['android'],
-    plugins: ['org.apache.cordova.camera']
-  });
-
-  var webapp = {
-    name: 'webapp:app',
-    directory: path.join(os.tmpdir(), './temp-webapp/temp-test'),
-
-    run: function (callback) {
-      helpers.run('generator-webapp')
-        .inDir(this.directory)
-        .withOptions(options)
-        .withGenerators([[helpers.createDummyGenerator(), testGeneratorName]])
-        .withPrompt({
-          features: ['includeBootstrap']
-        })
-        .on('end', callback);
-    },
-
-    copy: function (destination) {
-      util.copyRecursiveSync(this.directory, destination);
-    }
-  };
-
-  var target = {
-    subGenerator: undefined,
-
-    run: function (callback) {
-      this.subGenerator.run(this.run_.bind(this, callback));
-    },
-
-    run_: function (callback) {
-      var directory = path.join(os.tmpdir(), './temp-test');
-
-      var subGenerator = this.subGenerator;
-      var dependencies = [
-        [function () { subGenerator.copy(directory); }, subGenerator.name]
-      ];
-
-      helpers.run(path.join(__dirname, '../app'))
-        .inDir(directory)
-        .withOptions(options)
-        .withPrompt({
-          id: 'com.example.hogeApp',
-          name: 'HogeApp',
-          platforms: settings.platforms,
-          plugins: settings.plugins
-        })
-        .withGenerators(dependencies)
-        .on('end', callback);
-    }
-  };
-
-  target.subGenerator = webapp;
-
-  return target;
-};
+var makeStubGenerator = require('./lib/makeStubGenerator.js');
 
 describe('graybullet-cordova:app', function () {
   var originalTimeout;
@@ -83,7 +20,7 @@ describe('graybullet-cordova:app', function () {
 
   describe('no options', function () {
     beforeEach(function (done) {
-      makeStubGenerator('mocha:app').run(done);
+      makeStubGenerator('mocha:app', 'webapp').run(done);
     });
 
     it('Generate project', function (done) {
@@ -196,17 +133,17 @@ describe('graybullet-cordova:app', function () {
 
   describe('Cordova options', function () {
     it('no plugin', function (done) {
-      makeStubGenerator('mocha:app', {}, {plugins: []}).run(done);
+      makeStubGenerator('mocha:app', 'webapp', {}, {plugins: []}).run(done);
     });
 
     it('no platform', function  (done) {
-      makeStubGenerator('mocha:app', {}, {platforms: []}).run(done);
+      makeStubGenerator('mocha:app', 'webapp', {}, {platforms: []}).run(done);
     });
   });
 
   describe('--test-framework=jasmine', function () {
     beforeEach(function (done) {
-      makeStubGenerator('jasmine:app', {'test-framework': 'jasmine'}).run(done);
+      makeStubGenerator('jasmine:app', 'webapp', {'test-framework': 'jasmine'}).run(done);
     });
 
     it('Generate project with jasmine', function () {
