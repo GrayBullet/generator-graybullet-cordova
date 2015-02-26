@@ -3,21 +3,13 @@
 var ProjectFiles = require('../projectFiles.js');
 var cordova = new (require('../cordovaAdapter.js'))('cordova');
 
-/**
- * Create post filter factory with generator-webapp.
- * @constructor
- */
-var WebappFilterFactory = function (generator) {
+var AngularFilterFactory = function (generator) {
   this.generator = generator;
 };
 
-WebappFilterFactory.prototype.name = 'webapp';
+AngularFilterFactory.prototype.name = 'angular';
 
-/**
- * Get post filter.
- * @return {Object} post filter.
- */
-WebappFilterFactory.prototype.getFilter = function () {
+AngularFilterFactory.prototype.getFilter = function () {
   var generator = this.generator;
 
   return function () {
@@ -29,10 +21,9 @@ WebappFilterFactory.prototype.getFilter = function () {
 
     files.loadGruntfileJs()
       .changeDistDirectory('cordova/www')
-      .appendLoadNpmTasks('grunt-cordova-ng')
       .appendCordovaRoot('./cordova')
-      .appendConnectRoot('./fake')
-      .renameTask('build', 'buildweb')
+      .appendConnectRoot('./fake') // ToDo 追加されない
+      .renameTask('build', 'buildweb') // ToDo Grunt serve で build -> buildweb がうまくいっていない
       .appendTask('cordova-build', ['cordova:package'])
       .appendTask('cordova-emulate', ['cordova:emulate'])
       .appendTask('cordova-run', ['cordova:run'])
@@ -50,18 +41,10 @@ WebappFilterFactory.prototype.getFilter = function () {
       .setMetas(cordova.getMetasFromIndexHtml()) // Copy meta informations.
       .commit();
 
-    files.loadMainJs()
-      .appendToLast('$(document).on(\'deviceready\', function () {\n' +
-                    '  \'use strict\';\n' +
-                    '\n' +
-                    '  console.log(\'deviceready\');\n' +
-                    '});')
-      .commit();
-
     files.loadGitIgnore()
       .replace(/^node_modules/, '/node_modules')
       .commit();
   };
 };
 
-module.exports = WebappFilterFactory;
+module.exports = AngularFilterFactory;

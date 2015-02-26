@@ -198,7 +198,7 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
       var options = this.optionBuilder.getDelegatedValues();
 
       var util = new GeneratorUtil(this);
-      var filterFactory = util.getFilterFactory();
+      var filterFactory = util.getFilterFactory('angular');
       var filter = filterFactory.getFilter();
 
       // Run delegated webapp generator;

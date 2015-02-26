@@ -24,8 +24,17 @@ GeneratorUtil.prototype.composeWith = function (namespace, options) {
  * Get post filter factory with delegated generator
  * @return {Object} post filter.
  */
-GeneratorUtil.prototype.getFilterFactory = function () {
-  return new (require('./filters/webappFilterFactory'))(this.generator);
+GeneratorUtil.prototype.getFilterFactory = function (namespace) {
+  var factoryName;
+  if (namespace === 'webapp') {
+    factoryName = 'webappFilterFactory';
+  } else if (namespace === 'angular') {
+    factoryName = 'angularFilterFactory';
+  }
+
+  var FilterFactory = require('./filters/' + factoryName + '.js');
+
+  return new FilterFactory(this.generator);
 };
 
 module.exports = GeneratorUtil;
