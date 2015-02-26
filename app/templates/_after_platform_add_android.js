@@ -1,13 +1,20 @@
 #!/usr/bin/env node
 
+'use strict';
+
 var path = require('path');
 var fs = require('fs');
 
-var platform = process.env['CORDOVA_PLATFORMS']; // jshint ignore:line
+var getPlatforms = function () {
+  var env = process.env['CORDOVA_PLATFORMS']; // jshint ignore:line
+  return env.split(',');
+};
 
-if (platform === 'android') {
+var platforms = getPlatforms();
+
+if (platforms.some(function (platform) { return platform === 'android'; })) {
   var current = process.cwd();
-  var androidPath = path.join(current, 'platforms', platform);
+  var androidPath = path.join(current, 'platforms', 'android');
   var resXmlPath = path.join(androidPath, 'res/xml');
 
   fs.writeFileSync(path.join(resXmlPath, '.gitkeep'), '', 'utf-8');
