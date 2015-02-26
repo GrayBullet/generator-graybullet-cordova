@@ -6,7 +6,7 @@ var cordova = new (require('./cordovaAdapter.js'))('cordova');
 var _ = require('underscore');
 var OptionBuilder = require('./optionBuilder.js');
 var promptConfig = require('./promptConfig.js');
-var ProjectFiles = require('./projectFiles.js');
+var GeneratorUtil = require('./generatorUtil.js');
 
 var projectBuilder = {
   create: _.bind(cordova.create, cordova),
@@ -197,54 +197,14 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
       // Delegate options to generator-webapp.
       var options = this.optionBuilder.getDelegatedValues();
 
-      var createReplaceFiles = function (generator) {
-        var files = new ProjectFiles(generator);
+      var util = new GeneratorUtil(this);
+      var filterFactory = util.getFilterFactory();
+      var filter = filterFactory.getFilter();
 
-        return function () {
-          files.loadPackageJson()
-            .appendToDevDependencies('cordova', this.projectOptions.version)
-            .appendToDevDependencies('grunt-cordova-ng', '^0.2.0')
-            .commit();
-
-          files.loadGruntfileJs()
-            .changeDistDirectory('cordova/www')
-            .appendLoadNpmTasks('grunt-cordova-ng')
-            .appendCordovaRoot('./cordova')
-            .appendConnectRoot('./fake')
-            .renameTask('build', 'buildweb')
-            .appendTask('cordova-build', ['cordova:package'])
-            .appendTask('cordova-emulate', ['cordova:emulate'])
-            .appendTask('cordova-run', ['cordova:run'])
-            .appendTask('cordova-compile', ['cordova:compile'])
-            .appendTask('cordova-prepare', ['cordova:prepare'])
-            .appendTask('build', ['buildweb', 'cordova-build'])
-            .appendTask('emulate', ['buildweb', 'cordova-emulate'])
-            .appendTask('run', ['buildweb', 'cordova-run'])
-            .appendTask('compile', ['buildweb', 'cordova-compile'])
-            .appendTask('prepare', ['buildweb', 'cordova-prepare'])
-            .commit();
-
-          files.loadIndexHtml()
-            .appendScript('cordova.js')
-            .setMetas(cordova.getMetasFromIndexHtml()) // Copy meta informations.
-            .commit();
-
-          files.loadMainJs()
-            .appendToLast('$(document).on(\'deviceready\', function () {\n' +
-                          '  \'use strict\';\n' +
-                          '\n' +
-                          '  console.log(\'deviceready\');\n' +
-                          '});')
-            .commit();
-
-          files.loadGitIgnore()
-            .replace(/^node_modules/, '/node_modules')
-            .commit();
-        };
-      };
-
-      var subGenerator = this.composeWith('webapp', {options: options});
-      subGenerator.on('end', createReplaceFiles(subGenerator).bind(this));
+      // Run delegated webapp generator;
+      util
+        .composeWith(filterFactory.name, {options: options})
+        .on('end', filter);
     }
   },
 
