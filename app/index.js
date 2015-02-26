@@ -43,8 +43,15 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
   constructor: function () {
     yeoman.Base.apply(this, arguments);
 
+    this.option('webapp', {
+      defaults: 'webapp',
+      type: String,
+      desc: '[Experimental] Webapp yeoman generator ("webapp" or "angular")'
+    });
+
     // Delegate options from generator-webapp.
-    this.optionBuilder = new OptionBuilder(this, this.env.create('webapp'));
+    var delegated = this.env.create(this.options.webapp);
+    this.optionBuilder = new OptionBuilder(this, delegated);
     this.optionBuilder.copyDelegatedDefines();
   },
 
@@ -198,7 +205,7 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
       var options = this.optionBuilder.getDelegatedValues();
 
       var util = new GeneratorUtil(this);
-      var filterFactory = util.getFilterFactory('angular');
+      var filterFactory = util.getFilterFactory(this.options.webapp);
       var filter = filterFactory.getFilter();
 
       // Run delegated webapp generator;
