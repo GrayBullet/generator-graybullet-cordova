@@ -1,10 +1,7 @@
 'use strict';
 
-console.log(1);
 var path = require('path');
-console.log(2);
 var os = require('os');
-console.log(3);
 var helpers = require('yeoman-generator').test;
 
 module.exports = function (subGenerator, options, settings) {
