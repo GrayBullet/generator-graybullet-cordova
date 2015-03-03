@@ -216,9 +216,11 @@ GruntfileJs.prototype.appendConnectRoot = function (directory) {
  * @param {String} newName New task name.
  */
 GruntfileJs.prototype.renameTask = function (oldName, newName) {
-  var regexp = new RegExp('registerTask\\(\'' + oldName + '\'');
-  return this.replace_(regexp,
-                       'registerTask(\'' + newName + '\'');
+  var registerTaskRegexp = new RegExp('registerTask\\(\'' + oldName + '\'');
+  var runTaskRegexp = new RegExp('(task\\.run\\(\\[.*\')' + oldName + '\'');
+  return this
+    .replace_(registerTaskRegexp, 'registerTask(\'' + newName + '\'')
+    .replace_(runTaskRegexp, '$1' + newName + '\'');
 };
 
 /**
@@ -298,8 +300,9 @@ ProjectFiles.prototype.loadPackageJson = function () {
  * Load 'Gruntfile.js' builder.
  * @return {GruntfileJs} 'Gruntfile.js' builder.
  */
-ProjectFiles.prototype.loadGruntfileJs = function () {
-  return new GruntfileJs();
+ProjectFiles.prototype.loadGruntfileJs = function (overrides) {
+  var modifier = new GruntfileJs();
+  return _.extend(modifier, overrides);
 };
 
 /**
