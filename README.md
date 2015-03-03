@@ -33,6 +33,7 @@ Please look at the [generator-webapps's Option section](https://github.com/yeoma
 - 4.0.0
 - 4.1.2
 - 4.2.0
+- 4.3.0
 
 
 ## License
