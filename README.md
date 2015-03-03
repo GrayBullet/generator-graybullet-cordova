@@ -29,6 +29,14 @@ For more option, take look at then [grunt-cordova-ng](https://github.com/GrayBul
 Please look at the [generator-webapps's Option section](https://github.com/yeoman/generator-webapp#options).
 
 
+## Create AngularJS project
+[Experimental] Create project with `--webapp=angular' option, [generator-angular](https://github.com/yeoman/generator-angular) project.
+
+```
+npm install -g generator-angulr
+yo graybullet-cordova --webapp=angular
+```
+
 ## Supported Apache Cordova
 - 4.0.0
 - 4.1.2
