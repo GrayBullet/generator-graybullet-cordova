@@ -7,9 +7,10 @@ var FileModifier = require('./fileModifier.js');
 /**
  * 'main.js' file builder.
  * @constructor
+ * @param {String} filepath main.js file path.
  */
-var MainJs = function () {
-  this.modifier_ = new FileModifier('app/scripts/main.js');
+var MainJs = function (filepath) {
+  this.modifier_ = new FileModifier(filepath || 'app/scripts/main.js');
 };
 
 /**
@@ -274,10 +275,11 @@ var ProjectFiles = function () {};
 
 /**
  * Load 'main.js' builder.
- * @return {MainJs} 'index.html' builder.
+ * @param {String} filepath main.js file path.
+ * @return {MainJs} 'main.js' builder.
  */
-ProjectFiles.prototype.loadMainJs = function () {
-  return new MainJs();
+ProjectFiles.prototype.loadMainJs = function (filepath) {
+  return new MainJs(filepath);
 };
 
 /**
