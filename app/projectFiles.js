@@ -166,17 +166,6 @@ GruntfileJs.prototype.changeDistDirectory = function (directory) {
 };
 
 /**
- * Append LoadNpmTasks.
- * @param {String} name Npm tasks module name.
- * @return {Object} return this.
- * @desc grunt.loadNpmTasks('grunt-cordova-ng'); // <- Add this line.
- */
-GruntfileJs.prototype.appendLoadNpmTasks = function (name) {
-  return this.replace_(/(require\('load-grunt-tasks'\)\(grunt\);)/,
-                       '$1\n  grunt.loadNpmTasks(\'' + name + '\');');
-};
-
-/**
  * Append cordova root settings.
  * @param {String} directory Apache Cordova project directory.
  * @return {Object} return this.

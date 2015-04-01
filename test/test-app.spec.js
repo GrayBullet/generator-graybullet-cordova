@@ -48,7 +48,6 @@ describe('graybullet-cordova:app', function () {
       // Valid Gruntfile.js created?
       (function () {
         assert.fileContent('Gruntfile.js', /dist: 'cordova\/www'/);
-        assert.fileContent('Gruntfile.js', /grunt.loadNpmTasks\('grunt-cordova-ng'\);/);
         assert.fileContent('Gruntfile.js', /cordova: \{\n\s+options: \{\n\s+projectRoot: '\.\/cordova'\n\s+\}\n\s+\}/);
         assert.fileContent('Gruntfile.js', /connect.static\('\.\/fake'\)/);
         assert.fileContent('Gruntfile.js', /grunt.registerTask\('buildweb'/);

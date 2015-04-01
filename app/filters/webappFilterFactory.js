@@ -29,7 +29,6 @@ WebappFilterFactory.prototype.getFilter = function () {
 
     files.loadGruntfileJs()
       .changeDistDirectory('cordova/www')
-      .appendLoadNpmTasks('grunt-cordova-ng')
       .appendCordovaRoot('./cordova')
       .appendConnectRoot('./fake')
       .renameTask('build', 'buildweb')
