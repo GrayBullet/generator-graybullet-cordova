@@ -60,6 +60,18 @@ AngularFilterFactory.prototype.getFilter = function () {
       .setMetas(cordova.getMetasFromIndexHtml()) // Copy meta informations.
       .commit();
 
+    files.loadMainJs('app/scripts/app.js')
+      .appendToLast('var deviceready = function () {\n' +
+                    '  console.log(\'deviceready\');\n' +
+                    '};\n' +
+                    '\n' +
+                    'if (document.addEventListener) {\n' +
+                    '  document.addEventListener(\'deviceready\', deviceready, false);\n' +
+                    '} else {\n' +
+                    '  document.attachEvent(\'deviceready\', deviceready);\n' +
+                    '}\n')
+      .commit();
+
     files.loadGitIgnore()
       .replace(/^node_modules/, '/node_modules')
       .commit();
