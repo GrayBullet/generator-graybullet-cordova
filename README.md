@@ -33,7 +33,7 @@ Please look at the [generator-webapps's Option section](https://github.com/yeoma
 [Experimental] Create project with `--webapp=angular' option, [generator-angular](https://github.com/yeoman/generator-angular) project.
 
 ```
-npm install -g generator-angulr
+npm install -g generator-angular
 yo graybullet-cordova --webapp=angular
 ```
 
