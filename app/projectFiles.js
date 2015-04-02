@@ -124,6 +124,32 @@ PackageJson.prototype.appendToDevDependencies = function (name, version) {
 };
 
 /**
+ * 'bower.json' file builder.
+ * @constructor
+ */
+var BowerJson = function () {
+  this.data_ = JSON.parse(fs.readFileSync('bower.json', 'utf-8'));
+};
+
+/**
+ * Save all changes.
+ */
+BowerJson.prototype.commit = function () {
+  fs.writeFileSync('bower.json', JSON.stringify(this.data_, null, '  '), 'utf-8');
+};
+
+/**
+ * Append to devDependencies section.
+ * @param {String} name Module name.
+ * @param {String} version Module version.
+ */
+BowerJson.prototype.appendToDependencies = function (name, version) {
+  this.data_.dependencies[name] = version;
+
+  return this;
+};
+
+/**
  * 'Gruntfile.js' file builder.
  * @Constructor
  */
@@ -265,10 +291,12 @@ var ProjectFiles = function () {};
 /**
  * Load 'main.js' builder.
  * @param {String} filepath main.js file path.
+ * @paran {Object} override member object.
  * @return {MainJs} 'main.js' builder.
  */
-ProjectFiles.prototype.loadMainJs = function (filepath) {
-  return new MainJs(filepath);
+ProjectFiles.prototype.loadMainJs = function (filepath, overrides) {
+  var modifier = new MainJs(filepath);
+  return _.extend(modifier, overrides);
 };
 
 /**
@@ -288,7 +316,16 @@ ProjectFiles.prototype.loadPackageJson = function () {
 };
 
 /**
+ * Load 'bower.json' builder.
+ * @return {BowerJson} 'bower.json' builder.
+ */
+ProjectFiles.prototype.loadBowerJson = function () {
+  return new BowerJson();
+};
+
+/**
  * Load 'Gruntfile.js' builder.
+ * @paran {Object} override member object.
  * @return {GruntfileJs} 'Gruntfile.js' builder.
  */
 ProjectFiles.prototype.loadGruntfileJs = function (overrides) {

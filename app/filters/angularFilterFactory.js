@@ -22,6 +22,12 @@ var gruntfileJs = {
   }
 };
 
+var mainJs = {
+  appendModule: function (name) {
+    return this.replace_(/(\.module[^\)]*)(\n  \])/, '$1,\n    \'' + name + '\'$2');
+  }
+};
+
 var AngularFilterFactory = function (generator) {
   this.generator = generator;
 };
@@ -36,6 +42,10 @@ AngularFilterFactory.prototype.getFilter = function () {
     files.loadPackageJson()
       .appendToDevDependencies('cordova', generator.projectOptions.version)
       .appendToDevDependencies('grunt-cordova-ng', '^0.2.0')
+      .commit();
+
+    files.loadBowerJson()
+      .appendToDependencies('ngCordova', '')
       .commit();
 
     files.loadGruntfileJs(gruntfileJs)
@@ -60,7 +70,7 @@ AngularFilterFactory.prototype.getFilter = function () {
       .setMetas(cordova.getMetasFromIndexHtml()) // Copy meta informations.
       .commit();
 
-    files.loadMainJs('app/scripts/app.js')
+    files.loadMainJs('app/scripts/app.js', mainJs)
       .appendToLast('var deviceready = function () {\n' +
                     '  console.log(\'deviceready\');\n' +
                     '};\n' +
@@ -70,6 +80,7 @@ AngularFilterFactory.prototype.getFilter = function () {
                     '} else {\n' +
                     '  document.attachEvent(\'deviceready\', deviceready);\n' +
                     '}\n')
+      .appendModule('ngCordova')
       .commit();
 
     files.loadGitIgnore()
