@@ -1,6 +1,6 @@
 {
   "name": "generator-graybullet-cordova",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Webapp and Angular yeoman generator for Apache Cordova",
   "license": "MIT",
   "main": "app/index.js",
