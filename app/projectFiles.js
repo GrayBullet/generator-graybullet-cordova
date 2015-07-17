@@ -227,6 +227,26 @@ GruntfileJs.prototype.appendConnectRoot = function (directory) {
 };
 
 /**
+ */
+GruntfileJs.prototype.appendBaseDir = function (directory) {
+  return this.replace_(/(baseDir: \[)/,
+                       '$1\'' + directory + '\', ');
+};
+
+/**
+ * Register jit-grunt map.
+ * @param {String} taskName task name.
+ * @param {String} moduleName module name.
+ */
+GruntfileJs.prototype.registerTaskMap = function (taskName, moduleName) {
+  this.replace_(/( *)(useminPrepare: 'grunt-usemin')/,
+                '$1$2,\n' +
+                '$1' + taskName + ': \'' + moduleName + '\'');
+
+  return this;
+};
+
+/**
  * Rename task.
  * @param {String} oldName Target task name.
  * @param {String} newName New task name.

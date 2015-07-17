@@ -198,20 +198,35 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
     },
 
     /**
+     * Get generator-webapp's filter
+     */
+    getFilter: function () {
+      var done = this.async();
+      var that = this;
+
+      var util = new GeneratorUtil(this);
+      util.getFilterFactory(that.options.webapp, function (factory) {
+        that.filter = factory.getFilter();
+        done();
+      });
+    },
+
+    /**
      * Run generator-webapp.
      */
     createWebappProject: function () {
       // Delegate options to generator-webapp.
       var options = this.optionBuilder.getDelegatedValues();
-
       var util = new GeneratorUtil(this);
-      var filterFactory = util.getFilterFactory(this.options.webapp);
-      var filter = filterFactory.getFilter();
+      var that = this;
 
       // Run delegated webapp generator;
       util
-        .composeWith(filterFactory.name, {options: options})
-        .on('end', filter);
+        .composeWith(this.options.webapp, {options: options})
+        .on('end', function () {
+          that.filter();
+          that.installDependencies(options);
+        });
     }
   },
 

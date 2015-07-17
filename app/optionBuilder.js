@@ -41,9 +41,18 @@ OptionBuilder.prototype.copyDelegatedDefines = function () {
  * @return {object} Yeoman generator option values object.
  */
 OptionBuilder.prototype.getDelegatedValues = function () {
+  var args = [
+    'skip-install',
+    'skip-install-message',
+    'skip-welcome-message',
+    'skipInstall',
+    'skipInstallMessage',
+    'skipWelcomeMessage'
+  ];
+
   var optionNames = _.chain(this.getDelegatedDefines())
     .keys()
-    .concat(['skip-install', 'skip-install-message', 'skip-welcome-message'])
+    .concat(args)
     .value();
 
   return _.chain(this.current.options).pick(optionNames).value();

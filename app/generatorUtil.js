@@ -1,5 +1,7 @@
 'use strict';
 
+var semver = require('semver');
+
 /**
  * Yeoman generator utility.
  * @param {Object} generator Yeoman generator.
@@ -24,7 +26,7 @@ GeneratorUtil.prototype.composeWith = function (namespace, options) {
  * Get post filter factory with delegated generator
  * @return {Object} post filter.
  */
-GeneratorUtil.prototype.getFilterFactory = function (namespace) {
+GeneratorUtil.prototype.getFilterFactory = function (namespace, callback) {
   var factoryName;
   if (namespace === 'webapp') {
     factoryName = 'webappFilterFactory';
@@ -32,9 +34,20 @@ GeneratorUtil.prototype.getFilterFactory = function (namespace) {
     factoryName = 'angularFilterFactory';
   }
 
-  var FilterFactory = require('./filters/' + factoryName + '.js');
+  var generator = this.generator;
 
-  return new FilterFactory(this.generator);
+  require('./generatorInfo.js').getInfo(namespace, function (info) {
+    var filterVersion = '';
+    if (info && info.namespace === 'webapp:app' && semver.gte(info.version, '1.0.0')) {
+      filterVersion = '.100';
+    }
+
+    var filterPath = './filters/' + factoryName + filterVersion + '.js';
+    var FilterFactory = require(filterPath);
+    var factory = new FilterFactory(generator);
+
+    callback(factory);
+  });
 };
 
 module.exports = GeneratorUtil;
