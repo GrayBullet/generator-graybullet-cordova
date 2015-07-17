@@ -1,5 +1,3 @@
-/* global describe, beforeEach, it, expect, spyOn */
-
 'use strict';
 
 var _ = require('underscore');

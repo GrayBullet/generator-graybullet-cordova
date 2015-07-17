@@ -1,5 +1,3 @@
-/* global describe, it, expect */
-
 'use strict';
 
 var promptConfig = require('../app/promptConfig.js');

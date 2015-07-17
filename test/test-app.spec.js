@@ -1,4 +1,3 @@
-/* global jasmine, describe, beforeEach, afterEach, it, expect */
 'use strict';
 
 var assert = require('yeoman-generator').assert;

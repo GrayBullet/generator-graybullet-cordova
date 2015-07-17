@@ -1,5 +1,3 @@
-/* global describe, beforeEach, it, expect */
-
 'use strict';
 
 var OptionBuilder = require('../app/optionBuilder.js');
