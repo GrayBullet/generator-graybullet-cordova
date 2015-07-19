@@ -43,6 +43,11 @@ yo graybullet-cordova --webapp=angular
 - 4.2.0
 - 4.3.0
 
+## Supported Yeoman Generator
+- generator-webapp@0.5.1
+- generator-webapp@1.0.1
+- generator-angular@0.11.1 (Experimental)
+
 
 ## License
 
