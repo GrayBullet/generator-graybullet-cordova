@@ -11,7 +11,7 @@ module.exports = function (testGeneratorName, options) {
     directory: path.join(os.tmpdir(), './temp-webapp/temp-test'),
 
     run: function (callback) {
-      helpers.run('generator-webapp')
+      var generator = helpers.run('generator-webapp')
         .inDir(this.directory)
         .withOptions(options)
         .withGenerators([[helpers.createDummyGenerator(), testGeneratorName]])
@@ -19,6 +19,7 @@ module.exports = function (testGeneratorName, options) {
           features: ['includeBootstrap']
         })
         .on('end', callback);
+      generator.options.skipInstall = true;
     },
 
     copy: function (destination) {
