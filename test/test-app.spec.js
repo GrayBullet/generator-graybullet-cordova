@@ -69,16 +69,14 @@ describe('graybullet-cordova:app', function () {
           'initial-scale': 1,
           'maximum-scale': 1,
           'minimum-scale': 1,
-          'width': 'device-width',
-          'height': 'device-height',
-          'target-densitydpi': 'device-dpi'
+          'width': 'device-width'
         })
           .pairs()
           .map(function (pair) { return pair[0] + '=' + pair[1]; })
           .value()
           .join(', ');
 
-        var viewportActual = new RegExp('<meta name="viewport" content="' + viewport + '">');
+        var viewportActual = new RegExp('<meta name="viewport" content="' + viewport);
 
         assert.fileContent('app/index.html', /<script src="cordova.js"><\/script>\n\s*<\/body>/);
         assert.noFileContent('app/index.html', /<meta name="viewport" content="width=device-width">/);

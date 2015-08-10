@@ -38,10 +38,13 @@ yo graybullet-cordova --webapp=angular
 ```
 
 ## Supported Apache Cordova
-- 4.0.0
-- 4.1.2
-- 4.2.0
-- 4.3.0
+* Apache Cordova
+  - 4.0.0
+  - 4.1.2
+  - 4.2.0
+  - 4.3.0
+* generator-webapp
+  - 0.5.1
 
 ## Supported Yeoman Generator
 - generator-webapp@0.5.1
