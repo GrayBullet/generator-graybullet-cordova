@@ -52,6 +52,7 @@ AngularFilterFactory.prototype.getFilter = function () {
       .changeDistDirectory('cordova/www')
       .appendCordovaRoot('./cordova')
       .appendConnectRoot('./fake')
+      .registerTaskMap('cordova', 'grunt-cordova-ng')
       .renameTask('build', 'buildweb')
       .appendTask('cordova-build', ['cordova:package'])
       .appendTask('cordova-emulate', ['cordova:emulate'])
