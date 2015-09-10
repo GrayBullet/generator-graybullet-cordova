@@ -46,11 +46,12 @@ yo graybullet-cordova --webapp=angular
   - 5.0.0
   - 5.1.1
   - 5.2.0
+  - 5.3.1
 * generator-webapp
   - 0.5.1
   - 1.0.1 (Experimental)
 * generator-angular
-  - 0.11.1 (Experimental)
+  - 0.12.1 (Experimental)
 
 
 ## License
