@@ -29,7 +29,6 @@ describe('graybullet-cordova:app', function () {
           'bower.json',
           'package.json',
           '.editorconfig',
-          '.jshintrc',
           'cordova/config.xml',
           'cordova/platforms/android/AndroidManifest.xml',
           'cordova/.gitignore',
