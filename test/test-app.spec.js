@@ -32,7 +32,6 @@ describe('graybullet-cordova:app', function () {
           '.jshintrc',
           'cordova/config.xml',
           'cordova/platforms/android/AndroidManifest.xml',
-          'cordova/plugins/org.apache.cordova.camera/plugin.xml',
           'cordova/.gitignore',
           'cordova/www/.gitkeep',
           'fake/cordova.js'
