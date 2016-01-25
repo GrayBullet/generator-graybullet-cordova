@@ -46,12 +46,15 @@ yo graybullet-cordova --webapp=angular
   - 5.0.0
   - 5.1.1
   - 5.2.0
-  - 5.3.1
+  - 5.3.3
+  - 5.4.1
 * generator-webapp
   - 0.5.1
-  - 1.0.1 (Experimental)
+  - 1.1.0
 * generator-angular
   - 0.12.1 (Experimental)
+
+You must use cordova@5.4.1, if you use npm@3.
 
 
 ## License
