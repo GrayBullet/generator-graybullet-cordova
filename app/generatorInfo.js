@@ -32,7 +32,11 @@ module.exports = {
       }
     }
 
-    return path.sep + path.join.apply(path, directories);
+    var generatorPath = path.join.apply(path, directories);
+    if (!path.isAbsolute(generatorPath)) {
+        generatorPath = path.sep + generatorPath;
+    }
+    return generatorPath;
   },
   getVersion: function (directory) {
     var packageJsonPath = path.join(directory, 'package.json');
