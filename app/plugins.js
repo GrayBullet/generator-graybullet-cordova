@@ -40,7 +40,7 @@ module.exports = {
     },
     {
       name: 'org.apache.cordova.file-system-roots',
-      description: 'org.apache.cordova.file-system-roots plugin ==========================================='
+      description: 'org.apache.cordova.file-system-roots plugin ===========================================' // eslint-disable-line max-len
     },
     {
       name: 'org.apache.cordova.file-transfer',
@@ -72,7 +72,7 @@ module.exports = {
     },
     {
       name: 'org.apache.cordova.plugin.softkeyboard',
-      description: 'Controls Soft Keyboard on touch devices (so far only Android)$'
+      description: 'Controls Soft Keyboard on touch devices (so far only Android)$' // eslint-disable-line max-len
     },
     {
       name: 'org.apache.cordova.speech.speechsynthesis',
@@ -88,7 +88,7 @@ module.exports = {
     },
     {
       name: 'org.apache.cordova.vibration',
-    description: 'Cordova Vibration Plugin'
+      description: 'Cordova Vibration Plugin'
     }
   ]
 };

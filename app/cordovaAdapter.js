@@ -18,7 +18,9 @@ var execFile = require('child_process').execFile;
     return s
       .match(/Available platforms: ([\w, -]*)/)[1]
       .split(/,/)
-      .map(function (platform) { return platform.trim(); });
+      .map(function (platform) {
+        return platform.trim();
+      });
   };
 
   var parsePluginResults = function (s) {
@@ -40,7 +42,9 @@ var execFile = require('child_process').execFile;
 
     return s
       .split(/\n/)
-      .filter(function (line) { return line; })
+      .filter(function (line) {
+        return line;
+      })
       .map(function (line) {
         var data = line.split(' - ');
         return {name: data[0], description: data[1]};
@@ -71,15 +75,16 @@ var execFile = require('child_process').execFile;
   };
 
   CordovaAdapter.prototype.getAvailablePlatforms = function (callback) {
-    this.execute(['platform', 'list'],  function (error, stdout) {
+    this.execute(['platform', 'list'], function (error, stdout) {
       callback(parseAvailablePlatformResults(stdout));
     });
   };
 
   CordovaAdapter.prototype.searchPlugin = function (keywords, callback) {
-    this.execute(['plugin', 'search'].concat(keywords), function (error, stdout) {
-      callback(parsePluginResults(stdout));
-    });
+    this.execute(['plugin', 'search'].concat(keywords),
+                 function (error, stdout) {
+                   callback(parsePluginResults(stdout));
+                 });
   };
 
   CordovaAdapter.prototype.addPlugin = function (plugins, callback) {
@@ -93,7 +98,10 @@ var execFile = require('child_process').execFile;
   };
 
   CordovaAdapter.prototype.execute = function (args, callback) {
-    this.execFile_(this.cordovaCommand_, args, this.getExecFileOptions(), callback);
+    this.execFile_(this.cordovaCommand_,
+                   args,
+                   this.getExecFileOptions(),
+                   callback);
   };
 
   CordovaAdapter.prototype.getExecFileOptions = function () {
@@ -106,7 +114,10 @@ var execFile = require('child_process').execFile;
     return options;
   };
 
-  CordovaAdapter.prototype.execFile_ = function (file, optArgs, optOptions, optCallback) {
+  CordovaAdapter.prototype.execFile_ = function (file,
+                                                 optArgs,
+                                                 optOptions,
+                                                 optCallback) {
     execFile(file, optArgs, optOptions, optCallback);
   };
 

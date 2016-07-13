@@ -24,7 +24,7 @@ module.exports = {
   getGeneratorPath: function (resolved) {
     var directories = resolved.split(path.sep);
 
-    while (true) {
+    while (true) { // eslint-disable-line no-constant-condition
       var name = directories.pop();
       if (name.match(/^generator-.*/)) {
         directories.push(name);
@@ -34,7 +34,7 @@ module.exports = {
 
     var generatorPath = path.join.apply(path, directories);
     if (!path.isAbsolute(generatorPath)) {
-        generatorPath = path.sep + generatorPath;
+      generatorPath = path.sep + generatorPath;
     }
     return generatorPath;
   },

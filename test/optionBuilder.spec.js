@@ -10,10 +10,10 @@ describe('optionBuilder', function () {
   beforeEach(function () {
     current = {
       _options: {
-        'help': 'help option data'
+        help: 'help option data'
       },
       options: {
-        'coffee': true
+        coffee: true
       },
       option: function (name, data) {
         this._options[name] = data;
@@ -46,9 +46,7 @@ describe('optionBuilder', function () {
   describe('getDelegatedValues', function () {
     it('Get delegated option values', function () {
       expect(builder.getDelegatedValues())
-        .toEqual({
-          'coffee': true
-        });
+        .toEqual({coffee: true});
     });
 
     it('If option value changed', function () {

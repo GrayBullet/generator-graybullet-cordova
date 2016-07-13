@@ -1,5 +1,6 @@
 'use strict';
 
+var path = require('path');
 var assert = require('yeoman-generator').assert;
 var _ = require('underscore');
 var util = require('./lib/util.js');
@@ -44,20 +45,22 @@ describe('graybullet-cordova:app', function () {
 
       // Valid Gruntfile.js created?
       (function () {
+        /* eslint-disable max-len */
         assert.fileContent('Gruntfile.js', /dist: 'cordova\/www'/);
         assert.fileContent('Gruntfile.js', /cordova: \{\n\s+options: \{\n\s+projectRoot: '\.\/cordova'\n\s+\}\n\s+\}/);
         assert.fileContent('Gruntfile.js', /'\.\/fake'/);
         assert.fileContent('Gruntfile.js', /grunt.registerTask\('buildweb'/);
-        assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-build', \['cordova:package\'\]\)/);
-        assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-emulate', \['cordova:emulate\'\]\)/);
-        assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-run', \['cordova:run\'\]\)/);
-        assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-compile', \['cordova:compile\'\]\)/);
-        assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-prepare', \['cordova:prepare\'\]\)/);
-        assert.fileContent('Gruntfile.js', /grunt.registerTask\('build', \['buildweb\', \'cordova-build\'\]\)/);
+        assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-build', \['cordova:package']\)/);
+        assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-emulate', \['cordova:emulate']\)/);
+        assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-run', \['cordova:run']\)/);
+        assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-compile', \['cordova:compile']\)/);
+        assert.fileContent('Gruntfile.js', /grunt.registerTask\('cordova-prepare', \['cordova:prepare']\)/);
+        assert.fileContent('Gruntfile.js', /grunt.registerTask\('build', \['buildweb, 'cordova-build']\)/);
         assert.fileContent('Gruntfile.js', /grunt.registerTask\('emulate', \['buildweb', 'cordova-emulate'\]\)/);
         assert.fileContent('Gruntfile.js', /grunt.registerTask\('run', \['buildweb', 'cordova-run'\]\)/);
         assert.fileContent('Gruntfile.js', /grunt.registerTask\('compile', \['buildweb', 'cordova-compile'\]\)/);
         assert.fileContent('Gruntfile.js', /grunt.registerTask\('prepare', \['buildweb', 'cordova-prepare'\]\)/);
+        /* eslint-enable max-len */
       })();
 
       // Valid index.html created?
@@ -70,10 +73,13 @@ describe('graybullet-cordova:app', function () {
           'width': 'device-width'
         })
           .pairs()
-          .map(function (pair) { return pair[0] + '=' + pair[1]; })
+          .map(function (pair) { // eslint-disable-line max-nested-callbacks
+            return pair[0] + '=' + pair[1];
+          })
           .value()
           .join(', ');
 
+        /* eslint-disable max-len */
         var viewportActual = new RegExp('<meta name="viewport" content="' + viewport);
 
         assert.fileContent('app/index.html', /<script src="cordova.js"><\/script>\n\s*<\/body>/);
@@ -81,21 +87,28 @@ describe('graybullet-cordova:app', function () {
         assert.fileContent('app/index.html', viewportActual);
         assert.fileContent('app/index.html', /<meta name="format-detection" content="telephone=no">/);
         assert.fileContent('app/index.html', /<meta name="msapplication-tap-highlight" content="no">/);
+        /* eslint-enable max-len */
       })();
 
       // Valid main.js created?
       (function () {
-        var content = new RegExp('\\$\\(document\\).on\\(\'deviceready\', function \\(\\) {\n' + // jshint ignore:line
+        /* eslint-disable max-len */
+        var content = new RegExp('\\$\\(document\\).on\\(\'deviceready\', function \\(\\) {\n' +
                                  '  \'use strict\';\n' +
                                  '\n' +
-                                 '  console.log\\(\'deviceready\'\\);\n\\}\\);'); // jshint ignore:line
+                                 '  console.log\\(\'deviceready\'\\);\n\\}\\);');
+        /* eslint-enable max-len */
 
         assert.fileContent('app/scripts/main.js', content);
       })();
 
       // Valid after_platform_add_android.js created?
       (function () {
-        assert.fileContent('cordova/hooks/after_platform_add/after_platform_add_android.js', /\.gitkeep/);
+        assert.fileContent(path.join('cordova',
+                                     'hooks',
+                                     'after_platform_add',
+                                     'after_platform_add_android.js'),
+                           /\.gitkeep/);
       })();
 
       // Valid .gitignore created?
@@ -108,8 +121,9 @@ describe('graybullet-cordova:app', function () {
         var packageJson = util.readPackageJson();
         var cordova = new (require('../app/cordovaAdapter.js'))('cordova');
 
-        expect(packageJson.devDependencies['grunt-cordova-ng']).toEqual('^0.2.0');
-        cordova.getVersion(function (version) {
+        expect(packageJson.devDependencies['grunt-cordova-ng'])
+          .toEqual('^0.2.0');
+        cordova.getVersion(function (version) { // eslint-disable-line max-nested-callbacks
           expect(packageJson.devDependencies.cordova).toEqual(version);
           done();
         });
@@ -130,14 +144,16 @@ describe('graybullet-cordova:app', function () {
       makeStubGenerator('mocha:app', 'webapp', {}, {plugins: []}).run(done);
     });
 
-    it('no platform', function  (done) {
+    it('no platform', function (done) {
       makeStubGenerator('mocha:app', 'webapp', {}, {platforms: []}).run(done);
     });
   });
 
   describe('--test-framework=jasmine', function () {
     beforeEach(function (done) {
-      makeStubGenerator('jasmine:app', 'webapp', {'test-framework': 'jasmine'}).run(done);
+      makeStubGenerator('jasmine:app',
+                        'webapp',
+                        {'test-framework': 'jasmine'}).run(done);
     });
 
     it('Generate project with jasmine', function () {

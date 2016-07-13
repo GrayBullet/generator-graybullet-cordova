@@ -18,13 +18,15 @@ var gruntfileJs = {
   },
   appendConnectRoot: function (directory) {
     return this.replace_(/(connect\.static\(appConfig\.app\))/g,
-                         '$1,\n              connect.static(\'' + directory + '\')');
+                         '$1,\n              connect.static(\'' +
+                         directory + '\')');
   }
 };
 
 var mainJs = {
   appendModule: function (name) {
-    return this.replace_(/(\.module[^\)]*)(\n  \])/, '$1,\n    \'' + name + '\'$2');
+    return this.replace_(/(\.module[^\)]*)(\n  \])/, '$1,\n    \'' + // eslint-disable-line no-regex-spaces
+                         name + '\'$2');
   }
 };
 
@@ -71,16 +73,19 @@ AngularFilterFactory.prototype.getFilter = function () {
       .setMetas(cordova.getMetasFromIndexHtml()) // Copy meta informations.
       .commit();
 
+    var devicereadyFunction =
+      'var deviceready = function () {\n' +
+      '  console.log(\'deviceready\');\n' +
+      '};\n' +
+      '\n' +
+      'if (document.addEventListener) {\n' +
+      '  document.addEventListener(\'deviceready\', deviceready, false);\n' +
+      '} else {\n' +
+      '  document.attachEvent(\'deviceready\', deviceready);\n' +
+      '}\n';
+
     files.loadMainJs('app/scripts/app.js', mainJs)
-      .appendToLast('var deviceready = function () {\n' +
-                    '  console.log(\'deviceready\');\n' +
-                    '};\n' +
-                    '\n' +
-                    'if (document.addEventListener) {\n' +
-                    '  document.addEventListener(\'deviceready\', deviceready, false);\n' +
-                    '} else {\n' +
-                    '  document.attachEvent(\'deviceready\', deviceready);\n' +
-                    '}\n')
+      .appendToLast(devicereadyFunction)
       .appendModule('ngCordova')
       .commit();
 

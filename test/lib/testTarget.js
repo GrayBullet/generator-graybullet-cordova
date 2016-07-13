@@ -17,7 +17,9 @@ module.exports = function (subGenerator, options, settings) {
 
       var subGenerator = this.subGenerator;
       var dependencies = [
-        [function () { subGenerator.copy(directory); }, subGenerator.name]
+        [function () {
+          subGenerator.copy(directory);
+        }, subGenerator.name]
       ];
 
       helpers.run(path.join(__dirname, '../../app'))
