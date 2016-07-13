@@ -3,23 +3,35 @@
 var _ = require('underscore');
 
 var pickup = function (list, targets, optConvert) {
-  var convert = optConvert || function (item) { return item; };
+  var convert = optConvert || function (item) {
+    return item;
+  };
 
   return targets
     .map(function (target) {
-      return _.find(list, function (item) { return convert(item) === target; });
+      return _.find(list, function (item) {
+        return convert(item) === target;
+      });
     })
-    .filter(function (item) { return item; });
+    .filter(function (item) {
+      return item;
+    });
 };
 
 var reject = function (list, targets, optConvert) {
-  var convert = optConvert || function (item) { return item; };
+  var convert = optConvert || function (item) {
+    return item;
+  };
 
-  return _.reject(list, function (item) { return _.contains(targets, convert(item)); });
+  return _.reject(list, function (item) {
+    return _.contains(targets, convert(item));
+  });
 };
 
 var createChoices = function (list, targets, optConvert) {
-  var convert = optConvert || function (item) { return item; };
+  var convert = optConvert || function (item) {
+    return item;
+  };
 
   var tops = pickup(list, targets, convert);
   var others = reject(list, targets, convert);
@@ -50,7 +62,7 @@ module.exports = {
     //   all: [tops + others]
     // }
 
-    var temp = {
+    var temp = { // eslint-disable-line quote-props
       type: 'checkbox',
       choices: choices.all.map(function (platform) {
         return {name: platform, value: platform};
@@ -70,7 +82,9 @@ module.exports = {
 
     var choices = createChoices(plugins,
                                 preferenties,
-                                function (item) { return item.name; });
+                                function (item) {
+                                  return item.name;
+                                });
     // {
     //   tops: [
     //     {name: 'org.apache.cordova.console', description: '...'},
@@ -84,7 +98,7 @@ module.exports = {
     //   all: [tops + others]
     // }
 
-    var temp = {
+    var temp = { // eslint-disable-line quote-props
       type: 'checkbox',
       choices: choices.all.map(function (plugin) {
         return {name: plugin.description, value: plugin.name};

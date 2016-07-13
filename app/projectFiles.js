@@ -25,7 +25,7 @@ MainJs.prototype.commit = function () {
  * @private
  * @param {RegExp} regexp RegExp object.
  * @param {String} replace replace text.
- * @param {Object} return this.
+ * @return {MainJs} return this.
  */
 MainJs.prototype.replace_ = function (regexp, replace) {
   this.modifier_.replace(regexp, replace);
@@ -36,6 +36,7 @@ MainJs.prototype.replace_ = function (regexp, replace) {
 /**
  * Append script code to last.
  * @param {String} script script.
+ * @return {MainJs} return this.
  */
 MainJs.prototype.appendToLast = function (script) {
   return this.replace_(/(\n?)$/, '\n\n' + script + '$1');
@@ -61,7 +62,7 @@ IndexHtml.prototype.commit = function () {
  * @private
  * @param {RegExp} regexp RegExp object.
  * @param {String} replace replace text.
- * @param {Object} return this.
+ * @return {IndexHtml} return this.
  */
 IndexHtml.prototype.replace_ = function (regexp, replace) {
   this.modifier_.replace(regexp, replace);
@@ -72,11 +73,13 @@ IndexHtml.prototype.replace_ = function (regexp, replace) {
 /**
  * Append <script> element before </body>.
  * @param {String} path Script path.
+ * @return {IndexHtml} return this.
  * @desc   <script src="hoge.js"></script> <!-- Add this line. -->
  *       </body>
  */
 IndexHtml.prototype.appendScript = function (path) {
-  return this.replace_(/^(\s*<\/body>)/m, '\n    <script src="' + path + '"></script>\n$1');
+  return this.replace_(/^(\s*<\/body>)/m,
+                       '\n    <script src="' + path + '"></script>\n$1');
 };
 
 IndexHtml.prototype.setMeta = function (name, content) {
@@ -84,7 +87,9 @@ IndexHtml.prototype.setMeta = function (name, content) {
   this.replace_(new RegExp('(^|\n)\\s*<meta\\s+name="' + name + '"[^\n]*'), '');
 
   // Add new meta element.
-  return this.replace_(/(<\/title>\n)/, '$1    <meta name="' + name + '" content="' + content + '">\n');
+  return this.replace_(/(<\/title>\n)/,
+                       '$1    <meta name="' +
+                       name + '" content="' + content + '">\n');
 };
 
 IndexHtml.prototype.setMetas = function (metas) {
@@ -109,13 +114,16 @@ var PackageJson = function () {
  * Save all changes.
  */
 PackageJson.prototype.commit = function () {
-  fs.writeFileSync('package.json', JSON.stringify(this.data_, null, '  '), 'utf-8');
+  fs.writeFileSync('package.json',
+                   JSON.stringify(this.data_, null, '  '),
+                   'utf-8');
 };
 
 /**
  * Append to devDependencies section.
  * @param {String} name Module name.
  * @param {String} version Module version.
+ * @return {PackageJson}this.
  */
 PackageJson.prototype.appendToDevDependencies = function (name, version) {
   this.data_.devDependencies[name] = version;
@@ -135,13 +143,16 @@ var BowerJson = function () {
  * Save all changes.
  */
 BowerJson.prototype.commit = function () {
-  fs.writeFileSync('bower.json', JSON.stringify(this.data_, null, '  '), 'utf-8');
+  fs.writeFileSync('bower.json',
+                   JSON.stringify(this.data_, null, '  '),
+                   'utf-8');
 };
 
 /**
  * Append to devDependencies section.
  * @param {String} name Module name.
  * @param {String} version Module version.
+ * @return {BowerJson} this.
  */
 BowerJson.prototype.appendToDependencies = function (name, version) {
   this.data_.dependencies[name] = version;
@@ -223,10 +234,14 @@ GruntfileJs.prototype.appendCordovaRoot = function (directory) {
  */
 GruntfileJs.prototype.appendConnectRoot = function (directory) {
   return this.replace_(/(connect\.static\(config\.app\))/g,
-                       '$1,\n              connect.static(\'' + directory + '\')');
+                       '$1,\n              connect.static(\'' +
+                       directory + '\')');
 };
 
 /**
+ * Append base dir.
+ * @param {String} directory base dir.
+ * @return {GruntfileJs} this.
  */
 GruntfileJs.prototype.appendBaseDir = function (directory) {
   return this.replace_(/(baseDir: \[)/,
@@ -237,6 +252,7 @@ GruntfileJs.prototype.appendBaseDir = function (directory) {
  * Register jit-grunt map.
  * @param {String} taskName task name.
  * @param {String} moduleName module name.
+ * @return {GruntfileJs} this.
  */
 GruntfileJs.prototype.registerTaskMap = function (taskName, moduleName) {
   this.replace_(/( *)(useminPrepare: 'grunt-usemin')/,
@@ -250,6 +266,7 @@ GruntfileJs.prototype.registerTaskMap = function (taskName, moduleName) {
  * Rename task.
  * @param {String} oldName Target task name.
  * @param {String} newName New task name.
+ * @return {GruntfileJs} this.
  */
 GruntfileJs.prototype.renameTask = function (oldName, newName) {
   var registerTaskRegexp = new RegExp('registerTask\\(\'' + oldName + '\'');
@@ -263,15 +280,19 @@ GruntfileJs.prototype.renameTask = function (oldName, newName) {
  * Append task.
  * @param {String} name Adding task name.
  * @param {Array} tasks Child's tasks.
+ * @return {GruntfileJs} this.
  * @desc grunt.registerTasks('cordova-build', ['cordova:build']); // <- Add this line.
  */
 GruntfileJs.prototype.appendTask = function (name, tasks) {
   var taskTexts = tasks
-    .map(function (task) { return '\'' + task + '\''; })
+    .map(function (task) {
+      return '\'' + task + '\'';
+    })
     .join(', ');
 
   return this.replace_(/^(};)/m,
-                       '\n  grunt.registerTask(\'' + name + '\', [' + taskTexts + ']);\n$1');
+                       '\n  grunt.registerTask(\'' +
+                       name + '\', [' + taskTexts + ']);\n$1');
 };
 
 /**
@@ -295,6 +316,7 @@ GitIgnore.prototype.commit = function () {
  * @param {RegExp} regexp RegExp object.
  * @param {String} replace replace text.
  * @param {Object} return this.
+ * @return {GruntfileJs} this.
  */
 GitIgnore.prototype.replace = function (regexp, replace) {
   this.modifier_.replace(regexp, replace);
@@ -311,7 +333,7 @@ var ProjectFiles = function () {};
 /**
  * Load 'main.js' builder.
  * @param {String} filepath main.js file path.
- * @paran {Object} override member object.
+ * @param {Object} overrides member object.
  * @return {MainJs} 'main.js' builder.
  */
 ProjectFiles.prototype.loadMainJs = function (filepath, overrides) {
@@ -345,7 +367,7 @@ ProjectFiles.prototype.loadBowerJson = function () {
 
 /**
  * Load 'Gruntfile.js' builder.
- * @paran {Object} override member object.
+ * @param {Object} overrides member object.
  * @return {GruntfileJs} 'Gruntfile.js' builder.
  */
 ProjectFiles.prototype.loadGruntfileJs = function (overrides) {

@@ -71,11 +71,11 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
       this.log(yosay('Welcome to the Apache Cordova generator!'));
 
       var prompts = [
-        {
+        { // eslint-disable-line quote-props
           name: 'name',
           message: 'What is the name of Apache Cordova App?',
           'default': 'HelloCordova'
-        }, {
+        }, { // eslint-disable-line quote-props
           name: 'id',
           message: 'What is the ID of Apache Cordova App?',
           'default': 'io.cordova.hellocordova'
@@ -132,8 +132,12 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
 
       var source = path.join(this.sourceRoot(),
                              '_after_platform_add_android.js');
+      var destinationFile = path.join('cordova',
+                                      'hooks',
+                                      'after_platform_add',
+                                      'after_platform_add_android.js');
       var destination = path.join(this.destinationRoot(),
-                                  'cordova/hooks/after_platform_add/after_platform_add_android.js');
+                                  destinationFile);
 
       // copy file.
       fs.mkdirSync(path.dirname(destination));

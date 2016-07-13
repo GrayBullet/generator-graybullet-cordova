@@ -6,13 +6,15 @@ var path = require('path');
 var fs = require('fs');
 
 var getPlatforms = function () {
-  var env = process.env['CORDOVA_PLATFORMS']; // jshint ignore:line
+  var env = process.env['CORDOVA_PLATFORMS']; // eslint-disable-line dot-notation
   return env.split(',');
 };
 
 var platforms = getPlatforms();
 
-if (platforms.some(function (platform) { return platform === 'android'; })) {
+if (platforms.some(function (platform) {
+  return platform === 'android';
+})) {
   var current = process.cwd();
   var androidPath = path.join(current, 'platforms', 'android');
   var resXmlPath = path.join(androidPath, 'res/xml');

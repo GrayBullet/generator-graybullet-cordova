@@ -6,6 +6,7 @@ var cordova = new (require('../cordovaAdapter.js'))('cordova');
 /**
  * Create post filter factory with generator-webapp.
  * @constructor
+ * @param {Object} generator generator.
  */
 var WebappFilterFactory = function (generator) {
   this.generator = generator;

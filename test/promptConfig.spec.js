@@ -5,9 +5,14 @@ var promptConfig = require('../app/promptConfig.js');
 describe('promptConfig', function () {
   describe('getPlatforms', function () {
     it('Get platforms (running on Linux)', function () {
-      var result = promptConfig.getPlatforms(['amazon-fireos', 'android', 'blackberry10', 'browser']);
+      var result = promptConfig.getPlatforms([
+        'amazon-fireos',
+        'android',
+        'blackberry10',
+        'browser'
+      ]);
 
-      expect(result).toEqual({
+      expect(result).toEqual({ // eslint-disable-line quote-props
         type: 'checkbox',
         choices: [
           {name: 'android', value: 'android'},
@@ -20,9 +25,15 @@ describe('promptConfig', function () {
     });
 
     it('Get platforms (running on OS X)', function () {
-      var result = promptConfig.getPlatforms(['amazon-fireos', 'android', 'blackberry10', 'browser', 'ios']);
+      var result = promptConfig.getPlatforms([
+        'amazon-fireos',
+        'android',
+        'blackberry10',
+        'browser',
+        'ios'
+      ]);
 
-      expect(result).toEqual({
+      expect(result).toEqual({ // eslint-disable-line quote-props
         type: 'checkbox',
         choices: [
           {name: 'ios', value: 'ios'},
@@ -38,6 +49,7 @@ describe('promptConfig', function () {
 
   describe('getPlugins', function () {
     it('Get plugins', function () {
+      /* eslint-disable max-len */
       var result = promptConfig.getPlugins([
         {name: 'org.apache.cordova.geolocation', description: 'Cordova Geolocation Plugin'},
         {name: 'org.apache.cordova.camera', description: 'Cordova Camera Plugin'},
@@ -45,7 +57,7 @@ describe('promptConfig', function () {
         {name: 'org.apache.cordova.console', description: 'Cordova Console Plugin'}
       ]);
 
-      expect(result).toEqual({
+      expect(result).toEqual({ // eslint-disable-line quote-props
         type: 'checkbox',
         choices: [
           {name: 'Cordova Console Plugin', value: 'org.apache.cordova.console'},
@@ -58,6 +70,7 @@ describe('promptConfig', function () {
           'org.apache.cordova.device'
         ]
       });
+      /* eslint-enable max-len */
     });
   });
 });

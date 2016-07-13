@@ -11,7 +11,8 @@ describe('generatorInfo', function () {
 
   describe('getGeneratorPath', function () {
     it('Get generator path.', function () {
-      var result = generatorInfo.getGeneratorPath('/usr/lib/node_modules/generator-webapp/app/index.js');
+      var indexPath = '/usr/lib/node_modules/generator-webapp/app/index.js';
+      var result = generatorInfo.getGeneratorPath(indexPath);
 
       expect(result).toEqual('/usr/lib/node_modules/generator-webapp');
     });

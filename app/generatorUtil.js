@@ -23,8 +23,9 @@ GeneratorUtil.prototype.composeWith = function (namespace, options) {
 };
 
 /**
- * Get post filter factory with delegated generator
- * @return {Object} post filter.
+ * Get post filter factory with delegated generator.
+ * @param {String} namespace Namespace.
+ * @param {Function} callback Callback function.
  */
 GeneratorUtil.prototype.getFilterFactory = function (namespace, callback) {
   var factoryName;
@@ -38,7 +39,8 @@ GeneratorUtil.prototype.getFilterFactory = function (namespace, callback) {
 
   require('./generatorInfo.js').getInfo(namespace, function (info) {
     var filterVersion = '';
-    if (info && info.namespace === 'webapp:app' && semver.gte(info.version, '1.0.0')) {
+    if (info && info.namespace === 'webapp:app' &&
+        semver.gte(info.version, '1.0.0')) {
       filterVersion = '.100';
     }
 
