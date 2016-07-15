@@ -48,6 +48,7 @@ yo graybullet-cordova --webapp=angular
   - 5.2.0
   - 5.3.3
   - 5.4.1
+  - 6.2.0
 * generator-webapp
   - 0.5.1
   - 1.1.0
