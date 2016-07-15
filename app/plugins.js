@@ -1,7 +1,105 @@
 'use strict';
 
 module.exports = {
-  default: [
+  greaterorequal: [
+    {
+      name: "cordova-plugin-splashscreen",
+      description: "Cordova Splashscreen Plugin"
+    },
+    {
+      name: "cordova-plugin-contacts",
+      description: "Cordova Contacts Plugin"
+    },
+    {
+      name: "cordova-plugin-camera",
+      description: "Cordova Camera Plugin"
+    },
+    {
+      name: "cordova-plugin-inappbrowser",
+      description: "Cordova InAppBrowser Plugin"
+    },
+    {
+      name: "cordova-plugin-file-transfer",
+      description: "Cordova File Transfer Plugin"
+    },
+    {
+      name: "cordova-plugin-device-motion",
+      description: "Cordova Device Motion Plugin"
+    },
+    {
+      name: "cordova-plugin-network-information",
+      description: "Cordova Network Information Plugin"
+    },
+    {
+      name: "cordova-plugin-file",
+      description: "Cordova File Plugin"
+    },
+    {
+      name: "cordova-plugin-statusbar",
+      description: "Cordova StatusBar Plugin"
+    },
+    {
+      name: "cordova-plugin-device",
+      description: "Cordova Device Plugin"
+    },
+    {
+      name: "cordova-plugin-wkwebview-engine",
+      description: "The official Apache Cordova WKWebView Engine Plugin"
+    },
+    {
+      name: "cordova-plugin-media",
+      description: "Cordova Media Plugin"
+    },
+    {
+      name: "cordova-plugin-geolocation",
+      description: "Cordova Geolocation Plugin"
+    },
+    {
+      name: "cordova-plugin-battery-status",
+      description: "Cordova Battery Plugin"
+    },
+    {
+      name: "cordova-plugin-media-capture",
+      description: "Cordova Media Capture Plugin"
+    },
+    {
+      name: "cordova-plugin-vibration",
+      description: "Cordova Vibration Plugin"
+    },
+    {
+      name: "cordova-plugin-dialogs",
+      description: "Cordova Notification Plugin"
+    },
+    {
+      name: "cordova-plugin-device-orientation",
+      description: "Cordova Device Orientation Plugin"
+    },
+    {
+      name: "cordova-plugin-console",
+      description: "Cordova Console Plugin"
+    },
+    {
+      name: "cordova-plugin-globalization",
+      description: "Cordova Globalization Plugin"
+    },
+    {
+      name: "cordova-plugin-screen-orientation",
+      description: "Adds Screen Orientation API lock and unlock functions to the global screen object in android, iOS, WP8, W8.1, and BB10."
+    },
+    {
+      name: "cordova-plugin-whitelist",
+      description: "Cordova Whitelist Plugin"
+    },
+    {
+      name: "cordova-plugin-test-framework",
+      description: "Cordova Test Framework Plugin"
+    },
+    {
+      name: "cordova-plugin-compat",
+      description: "This repo is for remaining backwards compatible with previous versions of Cordova."
+    }
+  ],
+  lesserthan600: [
     {
       name: 'org.apache.cordova.battery-status',
       description: 'Cordova Battery Plugin'

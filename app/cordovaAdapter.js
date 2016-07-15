@@ -3,9 +3,11 @@
 var fs = require('fs');
 var path = require('path');
 var execFile = require('child_process').execFile;
+var execFileSync = require('child_process').execFileSync;
 
 (function () {
   var parseAvailablePlatformResults = function (s) {
+    // # lesser than 6.1.0
     // $ cordova platform list
     // Installed platforms: android 3.6.3, ios 3.6.3
     // Available platforms: amazon-fireos, blackberry10, browser, firefoxos, ubuntu
@@ -15,10 +17,32 @@ var execFile = require('child_process').execFile;
     //
     // ['amazon-fireos', 'blackberry10', 'browser', 'firefoxos', 'ubuntu']
 
+    // # greater or equal than 6.1.0
+    // $ cordova platform list
+    // Installed platforms:
+    //   android 5.1.1
+    // Available platforms:
+    //   amazon-fireos ~3.6.3 (deprecated)
+    //   blackberry10 ~3.8.0
+    //   browser ~4.1.0
+    //   firefoxos ~3.6.3
+    //   ubuntu ~4.3.3
+    //   webos ~3.7.0
+    //
+    //
+    //   |
+    //   V
+    //
+    // ['blackberry10', 'browser', 'firefoxos', 'ubuntu']
+    //
     return s
-      .match(/Available platforms: ([\w, -]*)/)[1]
-      .split(/,/)
-      .map(function (platform) { return platform.trim(); });
+      .replace('\r\n', '\n')
+      .match(/Available platforms: ([\n\w, ~\\.()-]*)/)[1]
+      .split(/[,\n]/)
+      .filter(function (platform) { return !platform.match(/\(deprecated\)/); })
+      .map(function (platform) { return platform.replace(/ ~.*/, ''); })
+      .map(function (platform) { return platform.trim(); })
+      .filter(function (platform) { return platform; });
   };
 
   var parsePluginResults = function (s) {
@@ -77,9 +101,7 @@ var execFile = require('child_process').execFile;
   };
 
   CordovaAdapter.prototype.searchPlugin = function (keywords, callback) {
-    this.execute(['plugin', 'search'].concat(keywords), function (error, stdout) {
-      callback(parsePluginResults(stdout));
-    });
+    callback(require('./plugins.js').greaterorequal);
   };
 
   CordovaAdapter.prototype.addPlugin = function (plugins, callback) {
@@ -92,8 +114,16 @@ var execFile = require('child_process').execFile;
     });
   };
 
+  CordovaAdapter.prototype.getVersionSync = function () {
+    return this.executeSync(['--version']).toString().trim();
+  };
+
   CordovaAdapter.prototype.execute = function (args, callback) {
     this.execFile_(this.cordovaCommand_, args, this.getExecFileOptions(), callback);
+  };
+
+  CordovaAdapter.prototype.executeSync = function (args) {
+    return this.execFileSync_(this.cordovaCommand_, args, this.getExecFileOptions());
   };
 
   CordovaAdapter.prototype.getExecFileOptions = function () {
@@ -108,6 +138,10 @@ var execFile = require('child_process').execFile;
 
   CordovaAdapter.prototype.execFile_ = function (file, optArgs, optOptions, optCallback) {
     execFile(file, optArgs, optOptions, optCallback);
+  };
+
+  CordovaAdapter.prototype.execFileSync_ = function (file, optArgs, optOptions) {
+    return execFileSync(file, optArgs, optOptions);
   };
 
   CordovaAdapter.prototype.createProjectRoot = function () {
@@ -139,6 +173,21 @@ var execFile = require('child_process').execFile;
   CordovaAdapter.getCordovaCommand = function (optPlatform) {
     var platform = optPlatform || process.platform;
     return platform === 'win32' ? 'cordova.cmd' : 'cordova';
+  };
+
+  CordovaAdapter.create = function (projectRoot) {
+    var version = (new CordovaAdapter('.')).getVersionSync();
+    var cordova = new CordovaAdapter(projectRoot);
+
+    if (version.split('.')[0] < 6) {
+      // for stop registry.cordova.io
+
+      cordova.searchPlugin = function (keywords, callback) {
+        callback(require('./plugins.js').lesserthan600);
+      };
+    }
+
+    return cordova;
   };
 
   module.exports = CordovaAdapter;

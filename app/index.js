@@ -2,7 +2,7 @@
 
 var yeoman = require('yeoman-generator');
 var yosay = require('yosay');
-var cordova = new (require('./cordovaAdapter.js'))('cordova');
+var cordova = require('./cordovaAdapter.js').create('cordova');
 var _ = require('underscore');
 var OptionBuilder = require('./optionBuilder.js');
 var promptConfig = require('./promptConfig.js');
@@ -22,11 +22,6 @@ var projectBuilder = {
   },
   searchOfficialPlugins: function (callback) {
     return cordova.searchPlugin('org.apache.cordova', function (plugins) {
-      // cordova plugin search error with Node.js@0.11.15
-      // If plugin search failed, use default plugin list.
-      if (!plugins || plugins.length <= 0) {
-        plugins = require('./plugins.js').default;
-      }
       callback(plugins);
     });
   },

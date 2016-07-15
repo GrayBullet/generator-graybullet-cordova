@@ -95,6 +95,33 @@ describe('CordovaAdapter', function () {
       });
     });
 
+    it('Get available platforms (greater than cordova@6.1.0)', function (done) {
+      callbackArguments = [
+        undefined,
+        'Installed platforms: android 3.6.3, ios 3.6.3\n' +
+          'Available platforms:\n' +
+          '  amazon-fireos ~3.6.3 (deplacated)\n' +
+          '  blackberry10 ~3.8.0\n' +
+          '  browser ~4.1.0\n' +
+          '  firefoxos ~3.6.3\n' +
+          '  ubuntu ~ 3.7.0'
+      ];
+
+      cordova.getAvailablePlatforms(function (platforms) {
+        expect(_.initial(cordova.execFile_.mostRecentCall.args))
+          .toEqual(['cordova', ['platform', 'list'], {cwd: 'cordova'}]);
+
+        expect(platforms).toEqual([
+          'blackberry10',
+          'browser',
+          'firefoxos',
+          'ubuntu'
+        ]);
+
+        done();
+      });
+    });
+
     describe('searchPlugin', function () {
       it('Search plugins', function (done) {
         callbackArguments = [

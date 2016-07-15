@@ -1,7 +1,7 @@
 'use strict';
 
 var ProjectFiles = require('../projectFiles.js');
-var cordova = new (require('../cordovaAdapter.js'))('cordova');
+var cordova = require('../cordovaAdapter.js').create('cordova');
 
 var gruntfileJs = {
   appendCordovaRoot: function (directory) {

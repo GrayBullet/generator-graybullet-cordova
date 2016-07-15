@@ -65,7 +65,9 @@ module.exports = {
   getPlugins: function (plugins, prompts) {
     var preferenties = [
       'org.apache.cordova.console',
-      'org.apache.cordova.device'
+      'org.apache.cordova.device',
+      'cordova-plugin-console',
+      'cordova-plugin-device'
     ];
 
     var choices = createChoices(plugins,
