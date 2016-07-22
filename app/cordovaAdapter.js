@@ -39,35 +39,17 @@ var execFileSync = require('child_process').execFileSync;
       .replace('\r\n', '\n')
       .match(/Available platforms: ([\n\w, ~\\.()-]*)/)[1]
       .split(/[,\n]/)
-      .filter(function (platform) { return !platform.match(/\(deprecated\)/); })
-      .map(function (platform) { return platform.replace(/ ~.*/, ''); })
-      .map(function (platform) { return platform.trim(); })
-      .filter(function (platform) { return platform; });
-  };
-
-  var parsePluginResults = function (s) {
-    // $ cordova plugin search org.apache.cordova
-    // org.apache.cordova.battery-status - Cordova Battery Plugin
-    // org.apache.cordova.camera - Cordova Camera Plugin
-    // org.apache.cordova.console - Cordova Console Plugin
-    // ...
-    //
-    //   |
-    //   V
-    //
-    // [
-    //   {name: 'org.apache.cordova.battery-status', description: 'Cordova Battery Plugin'},
-    //   {name: 'org.apache.cordova.camera', description: 'Cordova Camera Plugin'},
-    //   {name: 'org.apache.cordova.console', description: 'Cordova Console Plugin'},
-    //   ...
-    // ]
-
-    return s
-      .split(/\n/)
-      .filter(function (line) { return line; })
-      .map(function (line) {
-        var data = line.split(' - ');
-        return {name: data[0], description: data[1]};
+      .filter(function (platform) {
+        return !platform.match(/\(deprecated\)/);
+      })
+      .map(function (platform) {
+        return platform.replace(/ ~.*/, '');
+      })
+      .map(function (platform) {
+        return platform.trim();
+      })
+      .filter(function (platform) {
+        return platform;
       });
   };
 
@@ -95,7 +77,7 @@ var execFileSync = require('child_process').execFileSync;
   };
 
   CordovaAdapter.prototype.getAvailablePlatforms = function (callback) {
-    this.execute(['platform', 'list'],  function (error, stdout) {
+    this.execute(['platform', 'list'], function (error, stdout) {
       callback(parseAvailablePlatformResults(stdout));
     });
   };

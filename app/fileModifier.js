@@ -17,6 +17,7 @@ var FileModifier = function (path) {
  * @private
  * @param {RegExp} regexp RegExp object.
  * @param {String} replace replace text.
+ * @return {FileModifier} this.
  */
 FileModifier.prototype.replace = function (regexp, replace) {
   this.data_ = this.data_.replace(regexp, replace);

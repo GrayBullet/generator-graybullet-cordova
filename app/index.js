@@ -69,11 +69,11 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
         {
           name: 'name',
           message: 'What is the name of Apache Cordova App?',
-          'default': 'HelloCordova'
+          default: 'HelloCordova'
         }, {
           name: 'id',
           message: 'What is the ID of Apache Cordova App?',
-          'default': 'io.cordova.hellocordova'
+          default: 'io.cordova.hellocordova'
         }
       ];
 

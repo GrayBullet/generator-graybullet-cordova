@@ -16,9 +16,8 @@
         e.initEvent('deviceready', false, false);
         document.dispatchEvent(e);
       };
-    } else {
-      return document.fireEvent('ondeviceready');
     }
+    return document.fireEvent('ondeviceready');
   })();
 
   if (window.addEventListener) {

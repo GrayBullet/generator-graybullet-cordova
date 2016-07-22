@@ -3,23 +3,35 @@
 var _ = require('underscore');
 
 var pickup = function (list, targets, optConvert) {
-  var convert = optConvert || function (item) { return item; };
+  var convert = optConvert || function (item) {
+    return item;
+  };
 
   return targets
     .map(function (target) {
-      return _.find(list, function (item) { return convert(item) === target; });
+      return _.find(list, function (item) {
+        return convert(item) === target;
+      });
     })
-    .filter(function (item) { return item; });
+    .filter(function (item) {
+      return item;
+    });
 };
 
 var reject = function (list, targets, optConvert) {
-  var convert = optConvert || function (item) { return item; };
+  var convert = optConvert || function (item) {
+    return item;
+  };
 
-  return _.reject(list, function (item) { return _.contains(targets, convert(item)); });
+  return _.reject(list, function (item) {
+    return _.contains(targets, convert(item));
+  });
 };
 
 var createChoices = function (list, targets, optConvert) {
-  var convert = optConvert || function (item) { return item; };
+  var convert = optConvert || function (item) {
+    return item;
+  };
 
   var tops = pickup(list, targets, convert);
   var others = reject(list, targets, convert);
@@ -56,7 +68,7 @@ module.exports = {
         return {name: platform, value: platform};
       }),
       // Select first.
-      'default': choices.all.slice(0, 1)
+      default: choices.all.slice(0, 1)
     };
 
     return _.extend({}, prompts, temp);
@@ -72,7 +84,9 @@ module.exports = {
 
     var choices = createChoices(plugins,
                                 preferenties,
-                                function (item) { return item.name; });
+                                function (item) {
+                                  return item.name;
+                                });
     // {
     //   tops: [
     //     {name: 'org.apache.cordova.console', description: '...'},
@@ -91,7 +105,7 @@ module.exports = {
       choices: choices.all.map(function (plugin) {
         return {name: plugin.description, value: plugin.name};
       }),
-      'default': _.pluck(choices.tops, 'name')
+      default: _.pluck(choices.tops, 'name')
     };
 
     return _.extend({}, prompts, temp);

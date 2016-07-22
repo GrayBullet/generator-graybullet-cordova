@@ -23,8 +23,9 @@ GeneratorUtil.prototype.composeWith = function (namespace, options) {
 };
 
 /**
- * Get post filter factory with delegated generator
- * @return {Object} post filter.
+ * Get post filter factory with delegated generator.
+ * @param {String} namespace namespace.
+ * @param {Function} callback callback.
  */
 GeneratorUtil.prototype.getFilterFactory = function (namespace, callback) {
   var factoryName;

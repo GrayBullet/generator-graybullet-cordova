@@ -1,7 +1,6 @@
 'use strict';
 
 module.exports = function (grunt) {
-
   grunt.loadNpmTasks('grunt-eslint');
   grunt.loadNpmTasks('grunt-jasmine-node');
 
@@ -18,7 +17,7 @@ module.exports = function (grunt) {
       target: config.javascripts
     },
 
-    'jasmine_node': {
+    jasmine_node: { // eslint-disable-line camelcase
       all: [
         'test/'
       ]

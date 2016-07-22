@@ -5,25 +5,24 @@ var _ = require('underscore');
 describe('CordovaAdapter', function () {
   var CordovaAdapter;
   var cordova;
-  var executeArguments;
   var callbackArguments;
 
   beforeEach(function () {
     CordovaAdapter = require('../app/cordovaAdapter.js');
     cordova = new CordovaAdapter('cordova');
 
-    executeArguments = [];
     callbackArguments = [];
 
     spyOn(cordova, 'execFile_')
-      .andCallFake(function () { arguments[3].apply(null, callbackArguments); });
+      .andCallFake(function () {
+        arguments[3].apply(null, callbackArguments);
+      });
     spyOn(cordova, 'createProjectRoot');
   });
 
   describe('create', function () {
     it('Create project', function (done) {
       cordova.create('com.example.apps.sampleApp', 'SampleApp', function () {
-
         expect(cordova.createProjectRoot).toHaveBeenCalled();
 
         expect(_.initial(cordova.execFile_.mostRecentCall.args))
@@ -131,7 +130,7 @@ describe('CordovaAdapter', function () {
             'org.apache.cordova.device - Cordova Device Plugin\n'
         ];
 
-        cordova.searchPlugin(['org.apache.cordova'], function (plugins) {
+        cordova.searchPlugin(['org.apache.cordova'], function (plugins) { // eslint-disable-line max-nested-callbacks
           expect(_.initial(cordova.execFile_.mostRecentCall.args))
             .toEqual(['cordova', ['plugin', 'search', 'org.apache.cordova'], {cwd: 'cordova'}]);
 
@@ -154,7 +153,7 @@ describe('CordovaAdapter', function () {
           'org.apache.cordova.device'
         ];
 
-        cordova.addPlugin(plugins, function () {
+        cordova.addPlugin(plugins, function () { // eslint-disable-line max-nested-callbacks
           expect(_.initial(cordova.execFile_.mostRecentCall.args))
           .toEqual([
             'cordova',
@@ -180,7 +179,7 @@ describe('CordovaAdapter', function () {
           '4.1.2\n'
         ];
 
-        cordova.getVersion(function (version) {
+        cordova.getVersion(function (version) { // eslint-disable-line max-nested-callbacks
           expect(version).toEqual('4.1.2');
           done();
         });
@@ -194,7 +193,7 @@ describe('CordovaAdapter', function () {
     });
 
     ['linux', 'darwin', 'unknown'].forEach(function (platform) {
-      it('Get cordova command for ' + platform , function () {
+      it('Get cordova command for ' + platform, function () {
         expect(CordovaAdapter.getCordovaCommand(platform)).toEqual('cordova');
       });
     });

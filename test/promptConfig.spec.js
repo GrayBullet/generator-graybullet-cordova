@@ -15,7 +15,7 @@ describe('promptConfig', function () {
           {name: 'blackberry10', value: 'blackberry10'},
           {name: 'browser', value: 'browser'}
         ],
-        'default': ['android']
+        default: ['android']
       });
     });
 
@@ -31,7 +31,7 @@ describe('promptConfig', function () {
           {name: 'blackberry10', value: 'blackberry10'},
           {name: 'browser', value: 'browser'}
         ],
-        'default': ['ios']
+        default: ['ios']
       });
     });
   });
@@ -53,7 +53,7 @@ describe('promptConfig', function () {
           {name: 'Cordova Geolocation Plugin', value: 'org.apache.cordova.geolocation'},
           {name: 'Cordova Camera Plugin', value: 'org.apache.cordova.camera'}
         ],
-        'default': [
+        default: [
           'org.apache.cordova.console',
           'org.apache.cordova.device'
         ]

@@ -24,7 +24,7 @@ var gruntfileJs = {
 
 var mainJs = {
   appendModule: function (name) {
-    return this.replace_(/(\.module[^\)]*)(\n  \])/, '$1,\n    \'' + name + '\'$2');
+    return this.replace_(/(\.module[^\)]*)(\n {2}\])/, '$1,\n    \'' + name + '\'$2');
   }
 };
 

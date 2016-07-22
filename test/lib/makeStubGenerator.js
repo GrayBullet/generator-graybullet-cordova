@@ -3,7 +3,7 @@
 var _ = require('underscore');
 
 module.exports = function (testGeneratorName, webappGeneratorName, options, settings) {
-  options = _.defaults(options, {'skipInstall': true});
+  options = _.defaults(options, {skipInstall: true});
   settings = _.defaults(settings || {}, {
     platforms: ['android'],
     plugins: ['org.apache.cordova.camera']

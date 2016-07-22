@@ -84,7 +84,7 @@ module.exports = {
     },
     {
       name: "cordova-plugin-screen-orientation",
-      description: "Adds Screen Orientation API lock and unlock functions to the global screen object in android, iOS, WP8, W8.1, and BB10."
+      description: "Adds Screen Orientation API lock and unlock functions to the global screen object in android, iOS, WP8, W8.1, and BB10." // eslint-disable-line max-len
     },
     {
       name: "cordova-plugin-whitelist",
@@ -186,7 +186,7 @@ module.exports = {
     },
     {
       name: 'org.apache.cordova.vibration',
-    description: 'Cordova Vibration Plugin'
+      description: 'Cordova Vibration Plugin'
     }
   ]
 };
