@@ -98,8 +98,8 @@ describe('CordovaAdapter', function () {
       callbackArguments = [
         undefined,
         'Installed platforms: android 3.6.3, ios 3.6.3\n' +
-          'Available platforms:\n' +
-          '  amazon-fireos ~3.6.3 (deplacated)\n' +
+          'Available platforms: \n' +
+          '  amazon-fireos ~3.6.3 (deprecated)\n' +
           '  blackberry10 ~3.8.0\n' +
           '  browser ~4.1.0\n' +
           '  firefoxos ~3.6.3\n' +
@@ -118,30 +118,6 @@ describe('CordovaAdapter', function () {
         ]);
 
         done();
-      });
-    });
-
-    describe('searchPlugin', function () {
-      it('Search plugins', function (done) {
-        callbackArguments = [
-          undefined,
-          'org.apache.cordova.camera - Cordova Camera Plugin\n' +
-            'org.apache.cordova.console - Cordova Console Plugin\n' +
-            'org.apache.cordova.device - Cordova Device Plugin\n'
-        ];
-
-        cordova.searchPlugin(['org.apache.cordova'], function (plugins) { // eslint-disable-line max-nested-callbacks
-          expect(_.initial(cordova.execFile_.mostRecentCall.args))
-            .toEqual(['cordova', ['plugin', 'search', 'org.apache.cordova'], {cwd: 'cordova'}]);
-
-          expect(plugins).toEqual([
-            {name: 'org.apache.cordova.camera', description: 'Cordova Camera Plugin'},
-            {name: 'org.apache.cordova.console', description: 'Cordova Console Plugin'},
-            {name: 'org.apache.cordova.device', description: 'Cordova Device Plugin'}
-          ]);
-
-          done();
-        });
       });
     });
 
