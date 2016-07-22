@@ -2,7 +2,7 @@
 
 module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-eslint');
-  grunt.loadNpmTasks('grunt-jasmine-node');
+  grunt.loadNpmTasks('grunt-jasmine-nodejs');
 
   var config = {
     javascripts: [
@@ -17,16 +17,20 @@ module.exports = function (grunt) {
       target: config.javascripts
     },
 
-    jasmine_node: { // eslint-disable-line camelcase
-      unit: ['test/'],
-      integration: ['integration/']
+    jasmine_nodejs: { // eslint-disable-line camelcase
+      unit: {
+        specs: ['test/**']
+      },
+      integration: {
+        specs: ['integration/']
+      }
     }
   });
 
   grunt.registerTask('lint', ['eslint']);
   grunt.registerTask('test', function () {
     var args = Array.prototype.slice.apply(arguments);
-    args.unshift('jasmine_node');
+    args.unshift('jasmine_nodejs');
     var name = args.join(':');
 
     grunt.task.run(name);

@@ -5,6 +5,10 @@ var _ = require('underscore');
 describe('CordovaAdapter', function () {
   var CordovaAdapter;
   var cordova;
+
+  var createProjectRoot;
+  var execFile_;
+
   var callbackArguments;
 
   beforeEach(function () {
@@ -13,19 +17,19 @@ describe('CordovaAdapter', function () {
 
     callbackArguments = [];
 
-    spyOn(cordova, 'execFile_')
-      .andCallFake(function () {
+    execFile_ = spyOn(cordova, 'execFile_')
+      .and.callFake(function () {
         arguments[3].apply(null, callbackArguments);
       });
-    spyOn(cordova, 'createProjectRoot');
+    createProjectRoot = spyOn(cordova, 'createProjectRoot');
   });
 
   describe('create', function () {
     it('Create project', function (done) {
       cordova.create('com.example.apps.sampleApp', 'SampleApp', function () {
-        expect(cordova.createProjectRoot).toHaveBeenCalled();
+        expect(createProjectRoot).toHaveBeenCalled();
 
-        expect(_.initial(cordova.execFile_.mostRecentCall.args))
+        expect(_.initial(execFile_.calls.mostRecent().args))
           .toEqual([
             'cordova',
             ['create', '.', 'com.example.apps.sampleApp', 'SampleApp'],
@@ -40,7 +44,7 @@ describe('CordovaAdapter', function () {
   describe('addPlatforms', function () {
     it('Add single platform', function (done) {
       cordova.addPlatforms('android', function () {
-        expect(_.initial(cordova.execFile_.mostRecentCall.args))
+        expect(_.initial(cordova.execFile_.calls.mostRecent().args))
           .toEqual(['cordova', ['platform', 'add', 'android'], {cwd: 'cordova'}]);
 
         done();
@@ -49,7 +53,7 @@ describe('CordovaAdapter', function () {
 
     it('Add one platform', function (done) {
       cordova.addPlatforms(['ios'], function () {
-        expect(_.initial(cordova.execFile_.mostRecentCall.args))
+        expect(_.initial(cordova.execFile_.calls.mostRecent().args))
           .toEqual(['cordova',
                     ['platform', 'add', 'ios'],
                     {cwd: 'cordova'}]);
@@ -60,7 +64,7 @@ describe('CordovaAdapter', function () {
 
     it('Add two platforms', function (done) {
       cordova.addPlatforms(['android', 'ios'], function () {
-        expect(_.initial(cordova.execFile_.mostRecentCall.args))
+        expect(_.initial(cordova.execFile_.calls.mostRecent().args))
           .toEqual(['cordova',
                     ['platform', 'add', 'android', 'ios'],
                     {cwd: 'cordova'}]);
@@ -79,7 +83,7 @@ describe('CordovaAdapter', function () {
       ];
 
       cordova.getAvailablePlatforms(function (platforms) {
-        expect(_.initial(cordova.execFile_.mostRecentCall.args))
+        expect(_.initial(cordova.execFile_.calls.mostRecent().args))
           .toEqual(['cordova', ['platform', 'list'], {cwd: 'cordova'}]);
 
         expect(platforms).toEqual([
@@ -107,7 +111,7 @@ describe('CordovaAdapter', function () {
       ];
 
       cordova.getAvailablePlatforms(function (platforms) {
-        expect(_.initial(cordova.execFile_.mostRecentCall.args))
+        expect(_.initial(cordova.execFile_.calls.mostRecent().args))
           .toEqual(['cordova', ['platform', 'list'], {cwd: 'cordova'}]);
 
         expect(platforms).toEqual([
@@ -130,7 +134,7 @@ describe('CordovaAdapter', function () {
         ];
 
         cordova.addPlugin(plugins, function () { // eslint-disable-line max-nested-callbacks
-          expect(_.initial(cordova.execFile_.mostRecentCall.args))
+          expect(_.initial(cordova.execFile_.calls.mostRecent().args))
           .toEqual([
             'cordova',
             [
