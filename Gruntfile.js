@@ -18,14 +18,19 @@ module.exports = function (grunt) {
     },
 
     jasmine_node: { // eslint-disable-line camelcase
-      all: [
-        'test/'
-      ]
+      unit: ['test/'],
+      integration: ['integration/']
     }
   });
 
   grunt.registerTask('lint', ['eslint']);
-  grunt.registerTask('test', ['jasmine_node']);
+  grunt.registerTask('test', function () {
+    var args = Array.prototype.slice.apply(arguments);
+    args.unshift('jasmine_node');
+    var name = args.join(':');
+
+    grunt.task.run(name);
+  });
 
   grunt.registerTask('fulltest', ['lint', 'test']);
 
