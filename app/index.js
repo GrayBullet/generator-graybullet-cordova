@@ -7,6 +7,7 @@ var _ = require('underscore');
 var OptionBuilder = require('./optionBuilder.js');
 var promptConfig = require('./promptConfig.js');
 var GeneratorUtil = require('./generatorUtil.js');
+var Generator = require('../libs/generator');
 
 var projectBuilder = {
   create: _.bind(cordova.create, cordova),
@@ -193,35 +194,11 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
     },
 
     /**
-     * Get generator-webapp's filter
+     * Run generator-webapp or another.
      */
-    getFilter: function () {
-      var done = this.async();
-      var that = this;
-
-      var util = new GeneratorUtil(this);
-      util.getFilterFactory(that.options.webapp, function (factory) {
-        that.filter = factory.getFilter();
-        done();
-      });
-    },
-
-    /**
-     * Run generator-webapp.
-     */
-    createWebappProject: function () {
-      // Delegate options to generator-webapp.
-      var options = this.optionBuilder.getDelegatedValues();
-      var util = new GeneratorUtil(this);
-      var that = this;
-
-      // Run delegated webapp generator;
-      util
-        .composeWith(this.options.webapp, {options: options})
-        .on('end', function () {
-          that.filter();
-          that.installDependencies(options);
-        });
+    createChildProject: function () {
+      var child = Generator.create('legacy', this);
+      child.invoke();
     }
   },
 

@@ -1,6 +1,7 @@
 'use strict';
 
 var Kicker = require('./generator/kicker');
+var Legacy = require('./generator/legacy');
 
 /**
  * Yeoman child generator.
@@ -10,18 +11,22 @@ function Generator(name) {
   this._name = name;
 }
 
+/**
+ * Invoke `yo {child}`.
+ * @return {Promise} Promise.
+ */
 Generator.prototype.invoke = function () {
   var kicker = new Kicker(this._name);
 
-  return kicker.invoke(Generator.getCurrentArgs());
+  return kicker.invoke(Kicker.currentArgs());
 };
 
-Generator.create = function (name) {
+Generator.create = function (name, generator) {
+  if (name === 'legacy') {
+    return new Legacy(generator);
+  }
+
   return new Generator(name);
-};
-
-Generator.getCurrentArgs = function() {
-  throw new Error('Not Implement');
 };
 
 module.exports = Generator;
