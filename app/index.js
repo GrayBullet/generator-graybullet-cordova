@@ -52,8 +52,38 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
     this.optionBuilder.copyDelegatedDefines();
   },
 
-  initializing: function () {
-    this.projectOptions = {};
+  initializing: {
+    init: function () {
+      this.projectOptions = {};
+    },
+
+    /**
+     * Get version.
+     */
+    getVersion: function () {
+      var done = this.async();
+
+      cordova.getVersion(function (version) {
+        this.projectOptions.version = version;
+
+        done();
+      }.bind(this));
+    },
+
+    getWebapp: function () {
+      var done = this.async();
+      var options = this.options;
+      var that = this;
+
+      var name = options.webapp;
+      generatorInfo.getInfo(name, function (info) {
+        options.webappInfo = info;
+
+        options.child = Generator.create(options.webapp, info.version, that);
+
+        done();
+      });
+    }
   },
 
   prompting: {
@@ -153,10 +183,17 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
      */
     promptingAddPlugins: function () {
       var done = this.async();
+      var child = this.options.child;
 
       var prompt = function (plugins) {
+        var list = plugins;
+
+        if (child.getPlugins) {
+          list = child.getPlugins(list);
+        }
+
         var prompts = [
-          _.extend(promptConfig.getPlugins(plugins), {
+          _.extend(promptConfig.getPlugins(list, {}, child.getDefaultPlugins), {
             name: 'plugins',
             message: 'Are you sure you want to add any plugins?'
           })
@@ -177,34 +214,6 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
      */
     addPlugins: function () {
       projectBuilder.addPlugins(this.projectOptions.plugins, this.async());
-    },
-
-    /**
-     * Get version.
-     */
-    getVersion: function () {
-      var done = this.async();
-
-      cordova.getVersion(function (version) {
-        this.projectOptions.version = version;
-
-        done();
-      }.bind(this));
-    },
-
-    getWebapp: function () {
-      var done = this.async();
-      var options = this.options;
-      var that = this;
-
-      var name = options.webapp;
-      generatorInfo.getInfo(name, function (info) {
-        options.webappInfo = info;
-
-        options.child = Generator.create(options.webapp, info.version, that);
-
-        done();
-      });
     },
 
     /**

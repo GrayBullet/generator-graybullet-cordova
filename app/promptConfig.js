@@ -74,13 +74,16 @@ module.exports = {
     return _.extend({}, prompts, temp);
   },
 
-  getPlugins: function (plugins, prompts) {
+  getPlugins: function (plugins, prompts, filter) {
     var preferenties = [
       'org.apache.cordova.console',
       'org.apache.cordova.device',
       'cordova-plugin-console',
       'cordova-plugin-device'
     ];
+    if (_.isFunction(filter)) {
+      preferenties = filter(preferenties);
+    }
 
     var choices = createChoices(plugins,
                                 preferenties,

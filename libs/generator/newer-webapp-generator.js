@@ -75,6 +75,21 @@ function getMetasFromIndexHtml() {
     });
 }
 
+NewerWebappGenerator.prototype.getPlugins = function (plugins) {
+  plugins.unshift({
+    name: 'cordova-plugin-package',
+    description: 'Cordova Package Plugin'
+  });
+
+  return plugins;
+};
+
+NewerWebappGenerator.prototype.getDefaultPlugins = function (selects) {
+  selects.unshift('cordova-plugin-package');
+
+  return selects;
+};
+
 NewerWebappGenerator.prototype.installDependencies = function () {
   var parent = this._parent;
 
