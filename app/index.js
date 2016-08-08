@@ -195,10 +195,13 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
     getWebapp: function () {
       var done = this.async();
       var options = this.options;
+      var that = this;
 
       var name = options.webapp;
       generatorInfo.getInfo(name, function (info) {
         options.webappInfo = info;
+
+        options.child = Generator.create(options.webapp, info.version, that);
 
         done();
       });
@@ -208,10 +211,11 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
      * Run generator-webapp or another.
      */
     createChildProject: function () {
-      var child = Generator.create(this.options.webapp,
-                                   this.options.webappInfo.version,
-                                   this);
-      child.invoke();
+      var done = this.async();
+
+      var child = this.options.child;
+
+      child.invoke().then(done);
     }
   },
 
@@ -222,6 +226,16 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
     this.src.copy('ios_config', 'resources/ios/config');
     this.src.copy('_cordova-clirc',('.cordova-clirc'));
     this.dest.write('cordova/www/.gitkeep', '');
+  },
+
+  installDependencies: function () {
+    var options = this.options;
+    var child =this.options.child;
+
+    if (!options.skipInstall && child.installDependencies)
+    {
+      child.installDependencies();
+    }
   }
 });
 

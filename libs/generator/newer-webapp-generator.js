@@ -4,7 +4,8 @@ var Kicker = require('./kicker');
 var ProjectFiles = require('../../app/projectFiles');
 var FileModifier = require('../../app/fileModifier');
 
-function NewerWebappGenerator() {
+function NewerWebappGenerator(generator) {
+  this._parent = generator;
 }
 
 NewerWebappGenerator.prototype.invoke = function () {
@@ -72,6 +73,12 @@ function getMetasFromIndexHtml() {
       };
     });
 }
+
+NewerWebappGenerator.prototype.installDependencies = function () {
+  var parent = this._parent;
+
+  parent.npmInstall();
+};
 
 function GulpfileJs(file) {
   this.modifier_ = new FileModifier(file || 'gulpfile.js');

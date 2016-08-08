@@ -30,7 +30,7 @@ Generator.create = function (name, version, generator) {
   }
 
   if (name === 'webapp') {
-    return semver.lt(version, '2.0.0') ?  new Legacy(generator) : new NewerWebappGenerator();
+    return semver.lt(version, '2.0.0') ?  new Legacy(generator) : new NewerWebappGenerator(generator);
   }
   if (name === 'webapp' && semver.lt(version, '2.0.0')) {
     return new Legacy(generator);
