@@ -10,6 +10,7 @@ function NewerWebappGenerator(generator) {
 
 NewerWebappGenerator.prototype.invoke = function () {
   var kicker = new Kicker('webapp');
+  var parent = this._parent;
 
   return kicker.invoke(Kicker.currentArgs())
     .then(function () {
@@ -17,7 +18,7 @@ NewerWebappGenerator.prototype.invoke = function () {
       var files = new ProjectFiles();
 
       files.loadPackageJson()
-        .appendToDevDependencies('cordova', '6.0.0')
+        .appendToDevDependencies('cordova', parent.projectOptions.version)
         .appendToDevDependencies('cordova-cli-lib', '^0.5.0')
         .commit();
 
