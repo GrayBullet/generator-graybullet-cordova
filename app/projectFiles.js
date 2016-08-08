@@ -25,7 +25,6 @@ MainJs.prototype.commit = function () {
  * @private
  * @param {RegExp} regexp RegExp object.
  * @param {String} replace replace text.
- * @param {Object} return this.
  * @return {MainJs} this.
  */
 MainJs.prototype.replace_ = function (regexp, replace) {
@@ -63,7 +62,6 @@ IndexHtml.prototype.commit = function () {
  * @private
  * @param {RegExp} regexp RegExp object.
  * @param {String} replace replace text.
- * @param {Object} return this.
  * @return {IndexHtml} this.
  */
 IndexHtml.prototype.replace_ = function (regexp, replace) {
@@ -235,7 +233,7 @@ GruntfileJs.prototype.appendConnectRoot = function (directory) {
 /**
  * Append baseDir.
  * @param {String} directory base directory.
- * @return {Gruntfilejs} this.
+ * @return {GruntfileJs} this.
  */
 GruntfileJs.prototype.appendBaseDir = function (directory) {
   return this.replace_(/(baseDir: \[)/,
@@ -246,7 +244,7 @@ GruntfileJs.prototype.appendBaseDir = function (directory) {
  * Register jit-grunt map.
  * @param {String} taskName task name.
  * @param {String} moduleName module name.
- * @return {Gruntfilejs} this.
+ * @return {GruntfileJs} this.
  */
 GruntfileJs.prototype.registerTaskMap = function (taskName, moduleName) {
   this.replace_(/( *)(useminPrepare: 'grunt-usemin')/,
@@ -260,7 +258,7 @@ GruntfileJs.prototype.registerTaskMap = function (taskName, moduleName) {
  * Rename task.
  * @param {String} oldName Target task name.
  * @param {String} newName New task name.
- * @return {Gruntfilejs} this.
+ * @return {GruntfileJs} this.
  */
 GruntfileJs.prototype.renameTask = function (oldName, newName) {
   var registerTaskRegexp = new RegExp('registerTask\\(\'' + oldName + '\'');
@@ -275,7 +273,7 @@ GruntfileJs.prototype.renameTask = function (oldName, newName) {
  * @param {String} name Adding task name.
  * @param {Array} tasks Child's tasks.
  * @desc grunt.registerTasks('cordova-build', ['cordova:build']); // <- Add this line.
- * @return {Gruntfilejs} this.
+ * @return {GruntfileJs} this.
  */
 GruntfileJs.prototype.appendTask = function (name, tasks) {
   var taskTexts = tasks
@@ -305,7 +303,6 @@ GitIgnore.prototype.commit = function () {
 
 /**
  * Replace text.
- * @private
  * @param {RegExp} regexp RegExp object.
  * @param {String} replace replace text.
  * @return {GitIgnore} this.

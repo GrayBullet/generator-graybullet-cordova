@@ -6,8 +6,8 @@ var cordova = require('./cordovaAdapter.js').create('cordova');
 var _ = require('underscore');
 var OptionBuilder = require('./optionBuilder.js');
 var promptConfig = require('./promptConfig.js');
-var GeneratorUtil = require('./generatorUtil.js');
 var Generator = require('../libs/generator');
+var generatorInfo = require('./generatorInfo');
 
 var projectBuilder = {
   create: _.bind(cordova.create, cordova),
@@ -35,6 +35,7 @@ var projectBuilder = {
   }
 };
 
+// noinspection JSUnusedGlobalSymbols
 var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
   constructor: function () {
     yeoman.Base.apply(this, arguments);
@@ -52,8 +53,6 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
   },
 
   initializing: function () {
-    this.pkg = require('../package.json');
-
     this.projectOptions = {};
   },
 
@@ -193,11 +192,25 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
       }.bind(this));
     },
 
+    getWebapp: function () {
+      var done = this.async();
+      var options = this.options;
+
+      var name = options.webapp;
+      generatorInfo.getInfo(name, function (info) {
+        options.webappInfo = info;
+
+        done();
+      });
+    },
+
     /**
      * Run generator-webapp or another.
      */
     createChildProject: function () {
-      var child = Generator.create('legacy', this);
+      var child = Generator.create(this.options.webapp,
+                                   this.options.webappInfo.version,
+                                   this);
       child.invoke();
     }
   },

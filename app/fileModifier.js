@@ -14,7 +14,6 @@ var FileModifier = function (path) {
 
 /**
  * Replace text.
- * @private
  * @param {RegExp} regexp RegExp object.
  * @param {String} replace replace text.
  * @return {FileModifier} this.
@@ -30,6 +29,10 @@ FileModifier.prototype.replace = function (regexp, replace) {
  */
 FileModifier.prototype.commit = function () {
   fs.writeFileSync(this.path_, this.data_, 'utf-8');
+};
+
+FileModifier.prototype.getData = function () {
+  return this.data_;
 };
 
 module.exports = FileModifier;
