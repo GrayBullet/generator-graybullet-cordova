@@ -1,5 +1,6 @@
 'use strict';
 
+var os = require('os');
 var spawn = require('child_process').spawn;
 
 /**
@@ -19,7 +20,13 @@ Kicker.prototype.invoke = function (argv) {
   var args = argv.slice();
   args.unshift(this.name_);
 
-  return this.spawn_('yo', args);
+  return this.spawn_(Kicker.getYoCmd(), args);
+};
+
+Kicker.getYoCmd = function (optPlatform) {
+  var platform = optPlatform || os.platform();
+
+  return platform === 'win32' ? 'yo.cmd' : 'yo';
 };
 
 Kicker.prototype.spawn_ = function (command, argv) {

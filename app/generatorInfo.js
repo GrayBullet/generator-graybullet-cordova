@@ -22,7 +22,7 @@ module.exports = {
     return info;
   },
   getGeneratorPath: function (resolved) {
-    var directories = resolved.split(path.sep);
+    var directories = path.normalize(resolved).split(path.sep);
 
     while (true) { // eslint-disable-line no-constant-condition
       var name = directories.pop();

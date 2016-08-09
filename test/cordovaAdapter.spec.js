@@ -1,6 +1,9 @@
 'use strict';
 
+var os = require('os');
 var _ = require('underscore');
+
+var cordovaCmd = os.platform() === 'win32' ? 'cordova.cmd' : 'cordova';
 
 describe('CordovaAdapter', function () {
   var CordovaAdapter;
@@ -31,7 +34,7 @@ describe('CordovaAdapter', function () {
 
         expect(_.initial(execFile_.calls.mostRecent().args))
           .toEqual([
-            'cordova',
+            cordovaCmd,
             ['create', '.', 'com.example.apps.sampleApp', 'SampleApp'],
             {cwd: 'cordova'}
           ]);
@@ -45,7 +48,7 @@ describe('CordovaAdapter', function () {
     it('Add single platform', function (done) {
       cordova.addPlatforms('android', function () {
         expect(_.initial(cordova.execFile_.calls.mostRecent().args))
-          .toEqual(['cordova', ['platform', 'add', 'android'], {cwd: 'cordova'}]);
+          .toEqual([cordovaCmd, ['platform', 'add', 'android'], {cwd: 'cordova'}]);
 
         done();
       });
@@ -54,7 +57,7 @@ describe('CordovaAdapter', function () {
     it('Add one platform', function (done) {
       cordova.addPlatforms(['ios'], function () {
         expect(_.initial(cordova.execFile_.calls.mostRecent().args))
-          .toEqual(['cordova',
+          .toEqual([cordovaCmd,
                     ['platform', 'add', 'ios'],
                     {cwd: 'cordova'}]);
 
@@ -65,7 +68,7 @@ describe('CordovaAdapter', function () {
     it('Add two platforms', function (done) {
       cordova.addPlatforms(['android', 'ios'], function () {
         expect(_.initial(cordova.execFile_.calls.mostRecent().args))
-          .toEqual(['cordova',
+          .toEqual([cordovaCmd,
                     ['platform', 'add', 'android', 'ios'],
                     {cwd: 'cordova'}]);
 
@@ -84,7 +87,7 @@ describe('CordovaAdapter', function () {
 
       cordova.getAvailablePlatforms(function (platforms) {
         expect(_.initial(cordova.execFile_.calls.mostRecent().args))
-          .toEqual(['cordova', ['platform', 'list'], {cwd: 'cordova'}]);
+          .toEqual([cordovaCmd, ['platform', 'list'], {cwd: 'cordova'}]);
 
         expect(platforms).toEqual([
           'amazon-fireos',
@@ -112,7 +115,7 @@ describe('CordovaAdapter', function () {
 
       cordova.getAvailablePlatforms(function (platforms) {
         expect(_.initial(cordova.execFile_.calls.mostRecent().args))
-          .toEqual(['cordova', ['platform', 'list'], {cwd: 'cordova'}]);
+          .toEqual([cordovaCmd, ['platform', 'list'], {cwd: 'cordova'}]);
 
         expect(platforms).toEqual([
           'blackberry10',
@@ -136,7 +139,7 @@ describe('CordovaAdapter', function () {
         cordova.addPlugin(plugins, function () { // eslint-disable-line max-nested-callbacks
           expect(_.initial(cordova.execFile_.calls.mostRecent().args))
           .toEqual([
-            'cordova',
+            cordovaCmd,
             [
               'plugin',
               'add',
