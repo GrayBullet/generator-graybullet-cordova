@@ -15,7 +15,7 @@ For more information on what `generator-graybullet-cordova` can do for you, take
 * Run `grunt` for building and `grunt serve` for PC browser preview.
 
 
-### Build Apache Cordova app
+### Build Apache Cordova app for generator-webapp@<2.0.0
 * Debug build: `grunt build`
 * Debug build (Android only): `grunt build --cordova-platforms=android`
 * Release build: `grunt build --cordova-build=release`
@@ -25,7 +25,13 @@ For more information on what `generator-graybullet-cordova` can do for you, take
 For more option, take look at then [grunt-cordova-ng](https://github.com/GrayBullet/grunt-cordova-ng).
 
 
-## Options
+### Build Apache Cordova app for generator-webapp@>=2.0.0
+* Debug build: `gulp build`
+* Run emulator: `gulp emulate`
+* Run machine: `gulp run`
+
+
+## Options for generator-webapp@<2.0.0
 Please look at the [generator-webapps's Option section](https://github.com/yeoman/generator-webapp#options).
 
 
@@ -49,9 +55,11 @@ yo graybullet-cordova --webapp=angular
   - 5.3.3
   - 5.4.1
   - 6.2.0
+  - 6.3.0
 * generator-webapp
   - 0.5.1
   - 1.1.0
+  - 2.1.0
 * generator-angular
   - 0.12.1 (Experimental)
 
