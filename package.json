@@ -13,7 +13,11 @@
     "test": "grunt fulltest"
   },
   "files": [
-    "app"
+    "app",
+    "libs",
+    "LICENSE",
+    "README.md",
+    "package.json"
   ],
   "keywords": [
     "yeoman-generator",
