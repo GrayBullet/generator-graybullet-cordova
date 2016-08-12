@@ -19,7 +19,7 @@ NewerWebappGenerator.prototype.invoke = function () {
 
       files.loadPackageJson()
         .appendToDevDependencies('cordova', parent.projectOptions.version)
-        .appendToDevDependencies('cordova-cli-lib', '^0.5.0')
+        .appendToDevDependencies('cordova-cli-lib', '^0.6.0')
         .commit();
 
       files.loadIndexHtml()
@@ -48,11 +48,11 @@ NewerWebappGenerator.modifyGulpfileJs = function (files, file) {
   return new GulpfileJs(file)
     .changeDistDirectory('cordova/www')
     .appendBaseDir('./fake')
-    .registerRequire('cordova', 'cordova-cli-lib')
+    .registerRequire('', './gulp-cordova-tasks')
     .renameTask('build', 'buildweb')
-    .appendCordovaTask('build', ['buildweb'], ['build'])
-    .appendCordovaTask('emulate', ['buildweb'], ['emulate'])
-    .appendCordovaTask('run', ['buildweb'], ['run']);
+    .appendCordovaTask('build', ['buildweb'], 'cordova:build')
+    .appendCordovaTask('emulate', ['buildweb'], 'cordova:emulate')
+    .appendCordovaTask('run', ['buildweb'], 'cordova:run');
 };
 
 function getMetasFromIndexHtml() {
@@ -96,6 +96,11 @@ NewerWebappGenerator.prototype.installDependencies = function () {
   parent.npmInstall();
 };
 
+NewerWebappGenerator.prototype.writing = function () {
+  this._parent.src.copy('gulp-cordova-tasks.js', 'gulp-cordova-tasks.js');
+  this._parent.src.copy('_cordova-clirc', '.cordova-clirc');
+};
+
 function GulpfileJs(file) {
   this.modifier_ = new FileModifier(file || 'gulpfile.js');
 }
@@ -129,8 +134,16 @@ GulpfileJs.prototype.appendBaseDir = function () {
   return this;
 };
 
-GulpfileJs.prototype.registerRequire = function () {
-  this.replace_(/require\('wiredep'\)\.stream;/, 'require(\'wiredep\').stream;\nconst cordova = require(\'cordova-cli-lib\');');
+GulpfileJs.prototype.registerRequire = function (variable, lib) {
+  var line = '';
+  if (variable) {
+    line += 'const ' + variable + ' = ';
+  } else {
+    line += '\n';
+  }
+  line += 'require(\'' + lib + '\');';
+
+  this.replace_(/require\('wiredep'\)\.stream;/, 'require(\'wiredep\').stream;\n' + line);
 
   return this;
 };
@@ -149,10 +162,10 @@ function makeArrayString(elements) {
       .join(', ') + ']';
 }
 
-GulpfileJs.prototype.appendCordovaTask = function (taskName, depends, cordovaArgs) {
+GulpfileJs.prototype.appendCordovaTask = function (taskName, depends, startTask) {
   var task =
     'gulp.task(\'' + taskName + '\', ' + makeArrayString(depends) + ', () => {\n' +
-    '  return cordova.run(' + makeArrayString(cordovaArgs) + ');\n' +
+    '  return gulp.start(\'' + startTask + '\');\n' +
     '});\n' +
     '\n';
 
