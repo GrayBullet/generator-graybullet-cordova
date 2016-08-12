@@ -233,16 +233,18 @@ var GraybulletCordovaGenerator = yeoman.generators.Base.extend({
     this.src.copy('cordova.js', 'fake/cordova.js');
     this.src.copy('android_config', 'resources/android/config');
     this.src.copy('ios_config', 'resources/ios/config');
-    this.src.copy('_cordova-clirc',('.cordova-clirc'));
     this.dest.write('cordova/www/.gitkeep', '');
+
+    if (this.options.child.writing) {
+      this.options.child.writing();
+    }
   },
 
   installDependencies: function () {
     var options = this.options;
-    var child =this.options.child;
+    var child = this.options.child;
 
-    if (!options.skipInstall && child.installDependencies)
-    {
+    if (!options.skipInstall && child.installDependencies) {
       child.installDependencies();
     }
   }

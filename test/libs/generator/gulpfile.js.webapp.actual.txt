@@ -3,7 +3,8 @@ const gulpLoadPlugins = require('gulp-load-plugins');
 const browserSync = require('browser-sync');
 const del = require('del');
 const wiredep = require('wiredep').stream;
-const cordova = require('cordova-cli-lib');
+
+require('./gulp-cordova-tasks');
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
@@ -158,15 +159,15 @@ gulp.task('buildweb', ['lint', 'html', 'images', 'fonts', 'extras'], () => {
 });
 
 gulp.task('build', ['buildweb'], () => {
-  return cordova.run(['build']);
+  return gulp.start('cordova:build');
 });
 
 gulp.task('emulate', ['buildweb'], () => {
-  return cordova.run(['emulate']);
+  return gulp.start('cordova:emulate');
 });
 
 gulp.task('run', ['buildweb'], () => {
-  return cordova.run(['run']);
+  return gulp.start('cordova:run');
 });
 
 gulp.task('default', ['clean'], () => {
