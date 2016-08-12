@@ -27,7 +27,10 @@ For more option, take look at then [grunt-cordova-ng](https://github.com/GrayBul
 
 ### Build Apache Cordova app for generator-webapp@>=2.0.0
 * Debug build: `gulp build`
+* Debug build (Android only): `gulp build --cordova-platforms=android`
+* Release build: `gulp build --cordova-build=release`
 * Run emulator: `gulp emulate`
+* Run emulator (myavd avd emulator): `gulp emulate --cordova-platforms=android --cordova-target=myavd`
 * Run machine: `gulp run`
 
 
